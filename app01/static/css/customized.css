@@ -1,0 +1,90 @@
+/*-------------------------整体-----------------------------*/
+body {
+    background: linear-gradient(to top, #b19cd8, #e0bbe4);
+    padding-top: 50px;
+}
+
+/*宽松 加粗字体*/
+.loose-bold-font {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/*---------------------面板样式---------------------*/
+.panel {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-heading {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+
+/*------------------------导航条样式------------------------*/
+.navbar-default {
+    border-radius: 15px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-menu {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-menu li:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* 黑色背景，50%的透明度 */
+}
+
+.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+#navbutton .button {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+}
+
+
+/*-----------------------表格样式-----------------------*/
+table {
+    border-collapse: collapse;
+}
+
+table th:not(:first-child),
+table td:not(:first-child),
+table th:not(:last-child),
+table td:not(:last-child) {
+    border-width: 10px;
+    border-color: gray;
+}
+
+tr {
+    height: 20px;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #fff; /* 你可以根据需要更改背景颜色 */
+    z-index: 10;
+}
+
+/*信息库手动用滚动*/
+.scroll-list-table {
+    height: 500px;
+    overflow: auto;
+    position: relative;
+}
+
+/*首页装饰用滚动*/
+.scroll-index-table {
+    height: 200px;
+    overflow: auto;
+    position: relative;
+}
+
+.scroll-index-table::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 */
+}

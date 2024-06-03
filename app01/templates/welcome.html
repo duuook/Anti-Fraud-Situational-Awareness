@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <style>
+        /* 定义一个关键帧动画 */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 创建一个自定义的加载动画 */
+        #loadingAnimation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 10s linear infinite;
+            display: none;  // 默认隐藏加载动画
+        }
+    </style>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+
+    <!-- 自定义的加载动画 -->
+    <div id="loadingAnimation"></div>
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 显示自定义的加载动画
+        document.getElementById('loadingAnimation').style.display = 'block';
+
+        // 加载数据
+
+        // 数据加载完成后，隐藏自定义的加载动画
+        document.getElementById('loadingAnimation').style.display = 'none';
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

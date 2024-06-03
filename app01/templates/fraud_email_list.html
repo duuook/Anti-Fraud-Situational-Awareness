@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    <title>
+        涉诈邮件
+    </title>
+{% endblock %}
+
+{% block content %}
+    <div style="margin-top: 50px">
+        <div class="container">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Panel heading</div>
+                <div class="panel-body">
+                    <p>Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia
+                        bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam
+                        venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+
+                <!-- Table -->
+                <div class="scroll-list-table">
+                    <table id="fraud-phone-number-table" class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in my_range %}
+                            <tr>
+                                <th scope="row">{{ i }}</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
