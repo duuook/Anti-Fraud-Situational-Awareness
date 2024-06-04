@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'sass_processor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,8 +59,6 @@ STATICFILES_FINDERS = [
     'sass_processor.finders.CssFinder',
 
 ]
-
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'app01/static/css')
 
 TEMPLATES = [
     {
