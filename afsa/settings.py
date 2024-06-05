@@ -82,10 +82,21 @@ WSGI_APPLICATION = 'afsa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'msg_db',  # 数据库名
+        'USER': 'root',  # 用户名
+        'PASSWORD': '!A123456',  # 密码
+        'HOST': 'gz-cynosdbmysql-grp-ey0itk0t.sql.tencentcdb.com',  # 主机，云数据库用的外网地址
+        'PORT': 20269,  # 云数据库的端口号
     }
 }
 
