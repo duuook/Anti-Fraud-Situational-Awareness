@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>
+        分析报告
+    </title>
+{% endblock %}
+
+{% block content %}
+
+    <!-- 词云图 -->
+    <div class="panel panel-default container index_panel" >
+        <div class="panel-body center-block">
+            <img src="..." class="img-responsive" alt="Responsive image">
+        </div>
+    </div>
+
+    <!-- 第一层两个图表：柱状图、饼图 -->
+    <div id="pie and prick">
+        <div class="container">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 形成图表 -->
+                        <div id="myChart01" style="width: 100%;height:400px;"></div>
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('myChart01'));
+
+                            // 指定图表的配置项和数据
+                            var option = {
+                                title: {
+                                    text: 'ECharts 示例'
+                                },
+                                tooltip: {},
+                                legend: {
+                                    data: ['销量']
+                                },
+                                xAxis: {
+                                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+                                },
+                                yAxis: {},
+                                series: [{
+                                    name: '销量',
+                                    type: 'bar',
+                                    data: [5, 20, 36, 10, 10, 20]
+                                }]
+                            };
+
+                            // 使用刚指定的配置项和数据显示图表。
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 在这里放置第二个图表 -->
+                        <div id="pieChart01" style="width: 100%;height:400px;"></div>
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('pieChart01'));
+
+                            // 指定图表的配置项和数据
+                            option = {
+                                title: {
+                                    text: 'Referer of a Website',
+                                    subtext: 'Fake Data',
+                                    left: 'center'
+                                },
+                                tooltip: {
+                                    trigger: 'item'
+                                },
+                                legend: {
+                                    orient: 'vertical',
+                                    left: 'left'
+                                },
+                                series: [
+                                    {
+                                        name: 'Access From',
+                                        type: 'pie',
+                                        radius: '50%',
+                                        data: [
+                                            {value: 1048, name: 'Search Engine'},
+                                            {value: 735, name: 'Direct'},
+                                            {value: 580, name: 'Email'},
+                                            {value: 484, name: 'Union Ads'},
+                                            {value: 300, name: 'Video Ads'}
+                                        ],
+                                        emphasis: {
+                                            itemStyle: {
+                                                shadowBlur: 10,
+                                                shadowOffsetX: 0,
+                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                            }
+                                        }
+                                    }
+                                ]
+                            };
+
+                            // 使用刚指定的配置项和数据显示图表。
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二层三个标签页设置，表明推算原因 -->
+    <div class="panel panel-default container index_panel" >
+        <div class="panel-body center-block">
+            <div id="tab_chart">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                              data-toggle="tab">Home</a>
+                    </li>
+                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                    </li>
+                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                                               data-toggle="tab">Messages</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
+                                               data-toggle="tab">Settings</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">...</div>
+                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
+                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
