@@ -19,6 +19,10 @@ def index(request):
 def fraud_phone_number_list(request):
     """"防诈态势感知-诈骗电话号码列表"""
     my_range = range(1, 100)
+    """
+    # 此处用以填充数据库相关操作内容
+    """
+
     return render(request, 'fraud_phone_number_list.html', {'my_range': my_range})
 
 

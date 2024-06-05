@@ -1,7 +1,13 @@
 /*-------------------------整体-----------------------------*/
 body {
     background: linear-gradient(to top, #b19cd8, #e0bbe4);
-    padding-top: 50px;
+    padding-top: 90px;
+}
+
+/*面板宽度*/
+.index_panel {
+    width: 1110px;
+    height: 100%;
 }
 
 /*宽松 加粗字体*/
