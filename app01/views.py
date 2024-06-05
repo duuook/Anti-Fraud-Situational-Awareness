@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 import json
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.safestring import mark_safe
 
 # Create your views here.
 
@@ -37,7 +38,7 @@ def analysis_result(request):
     """分析结果页面"""
     return render(request, 'analysis_result.html')
 
-
+@csrf_exempt
 def ajax(request):
     """ajax提交测试"""
     message = request.POST
