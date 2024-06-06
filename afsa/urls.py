@@ -27,6 +27,7 @@ urlpatterns = [
 
     # 信息库
     path('fraud_phone_number/', views.fraud_phone_number_list),
+    path('fraud_msg/', views.fraud_msg_list),
     path('fraud_email/', views.fraud_email_list),
     path('fraud_ip/', views.fraud_ip_list),
 

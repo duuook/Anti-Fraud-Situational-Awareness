@@ -63,7 +63,7 @@ def fraud_email_list(request):
     if request.method == 'GET':
         form = msgModelForm()
         msgs = models.msg.objects.all()
-        return render(request, 'fraud_email_list.html', {'form': form, 'msgs': msgs})
+        return render(request, 'fraud_msg_list.html', {'form': form, 'msgs': msgs})
 
 
 def fraud_ip_list(request):

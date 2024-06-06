@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <div style="margin-top: 50px">
+    <div>
         <div class="container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
@@ -26,17 +26,19 @@
                     <table id="fraud-phone-number-table" class="table">
                         <thead>
                         <tr>
-                            <th>电话号码</th>
-                            <th>电话类型</th>
-                            <th>标记次数</th>
+                            <th class="loose-bold-font" style="text-align: center">ID</th>
+                            <th class="loose-bold-font" style="text-align: center">电话号码</th>
+                            <th class="loose-bold-font" style="text-align: center">电话类型</th>
+                            <th class="loose-bold-font" style="text-align: center">标记次数</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for phone_number in phone_numbers %}
                             <tr>
-                                <td>{{ phone_number.电话号码 }}</td>
-                                <td>{{ phone_number.电话类型 }}</td>
-                                <td>{{ phone_number.标记次数 }}</td>
+                                <td style="text-align: center">{{ phone_number.id }}</td>
+                                <td style="text-align: center">{{ phone_number.电话号码 }}</td>
+                                <td style="text-align: center">{{ phone_number.电话类型 }}</td>
+                                <td style="text-align: center">{{ phone_number.标记次数 }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

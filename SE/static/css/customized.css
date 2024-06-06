@@ -1,7 +1,7 @@
 /*-------------------------整体-----------------------------*/
 body {
     background: linear-gradient(to top, #b19cd8, #e0bbe4);
-    padding-top: 90px;
+    padding-top: 70px;
 }
 
 /*面板宽度*/
@@ -58,12 +58,21 @@ table {
     border-collapse: collapse;
 }
 
-table th:not(:first-child),
+table tr:hover {
+    background-color: #f5f5f5; /* 鼠标悬停时的背景颜色 */
+}
+
+/*table td {*/
+/*    border-left: 0.01px solid gray; !* 左边框 *!*/
+/*    border-right: 0.01px solid gray; !* 右边框 *!*/
+/*}*/
+
 table td:not(:first-child),
-table th:not(:last-child),
 table td:not(:last-child) {
-    border-width: 10px;
-    border-color: gray;
+    /*border-width: 10px;*/
+    /*border-color: gray;*/
+    border-left: 1px solid #ddd; /* 左边框 */
+    border-right: 1px solid #ddd; /* 右边框 */
 }
 
 tr {
@@ -95,14 +104,32 @@ thead th {
     display: none; /* 隐藏滚动条 */
 }
 
+/*短信库格式*/
 #fraud-msg-table th:nth-child(1) {
-    width: 10%;  /* 第一列的宽度 */
+    width: 10%; /* 第一列的宽度 */
 }
 
 #fraud-msg-table th:nth-child(2) {
-    width: 10%;  /* 第二列的宽度 */
+    width: 10%; /* 第二列的宽度 */
 }
 
 #fraud-msg-table th:nth-child(3) {
-    width: 80%;  /* 第三列的宽度 */
+    width: 80%; /* 第三列的宽度 */
+}
+
+/*电话库格式*/
+#fraud-phone-number-table th:nth-child(1) {
+    width: 10%; /* 第一列的宽度 */
+}
+
+#fraud-phone-number-table th:nth-child(2) {
+    width: 35%; /* 第二列的宽度 */
+}
+
+#fraud-phone-number-table th:nth-child(3) {
+    width: 35%; /* 第三列的宽度 */
+}
+
+#fraud-phone-number-table th:nth-child(4) {
+    width: 20%; /* 第四列的宽度 */
 }
