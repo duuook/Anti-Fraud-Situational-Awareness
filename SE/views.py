@@ -46,7 +46,7 @@ def fraud_ip_list(request):
     """防诈态势感知-诈骗IP列表"""
     if request.method == 'GET':
         form = WebsiteModelForm()
-        websites = models.website.objects.all()[:100]
+        websites = models.website.objects.all()
         return render(request, 'fraud_ip_list.html', {'form': form, 'websites': websites})
 
 
