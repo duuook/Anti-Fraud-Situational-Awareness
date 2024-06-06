@@ -44,8 +44,16 @@ def fraud_msg_list(request):
 
 def fraud_ip_list(request):
     """防诈态势感知-诈骗IP列表"""
+    if request.method == 'GET':
+        form = WebsiteModelForm()
+        websites = models.website.objects.all()[:100]
+        return render(request, 'fraud_ip_list.html', {'form': form, 'websites': websites})
+
+
+def fraud_email_list(request):
+    """防诈态势感知-诈骗邮箱列表"""
     my_range = range(1, 100)
-    return render(request, 'fraud_ip_list.html', {'my_range': my_range})
+    return render(request, 'fraud_email_list.html', {'my_range': my_range})
 
 
 def analysis_result(request):
@@ -66,6 +74,4 @@ def ajax(request):
     return HttpResponse(json.dumps(response))
 
 
-def fraud_email_list(request):
-    """防诈态势感知-诈骗邮箱列表"""
-    return None
+

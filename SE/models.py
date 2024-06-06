@@ -15,6 +15,9 @@ class 诈骗类型说明(models.Model):
     诈骗类型id = models.SmallIntegerField(primary_key=True)
     诈骗类型 = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.诈骗类型
+
 
 # 主表
 class website(models.Model):
