@@ -2,21 +2,22 @@
 
 {% block title %}
     <title>
-        涉诈邮件
+        涉诈邮箱
     </title>
 {% endblock %}
 
 {% block content %}
-    <div style="margin-top: 50px">
+
+    <div>
         <div class="container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading" style="font-weight: bold;text-align: center">
-                    涉诈邮件库
+                    涉诈邮箱库
                 </div>
                 <div class="panel-body">
                     <p>
-                        此处收录了从网路上收集到的涉诈邮件，信息会进行自动更新，以保证数据的准确性。
+                        此处收录了从网路上收集到的涉诈邮箱，信息会进行自动更新，以保证数据的准确性。
                     </p>
                 </div>
 
@@ -25,17 +26,19 @@
                     <table id="fraud-phone-number-table" class="table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>短信类型</th>
-                            <th>短信内容</th>
+                            <th class="loose-bold-font" style="text-align: center">ID</th>
+                            <th class="loose-bold-font" style="text-align: center">电话号码</th>
+                            <th class="loose-bold-font" style="text-align: center">电话类型</th>
+                            <th class="loose-bold-font" style="text-align: center">标记次数</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for msg in msgs %}
+                        {% for i in my_range %}
                             <tr>
-                                <td>{{ msg.id }}</td>
-                                <td>{{ msg.短信类别 }}</td>
-                                <td>{{ msg.短信内容 }}</td>
+                                <td style="text-align: center">{{ i }}</td>
+                                <td style="text-align: center">{{ i }}</td>
+                                <td style="text-align: center">{{ i }}</td>
+                                <td style="text-align: center">{{ i }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -44,6 +47,5 @@
             </div>
         </div>
     </div>
-
 
 {% endblock %}
