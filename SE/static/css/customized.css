@@ -95,14 +95,14 @@ thead th {
     display: none; /* 隐藏滚动条 */
 }
 
-#fraud-email-table th:nth-child(1) {
+#fraud-msg-table th:nth-child(1) {
     width: 10%;  /* 第一列的宽度 */
 }
 
-#fraud-email-table th:nth-child(2) {
+#fraud-msg-table th:nth-child(2) {
     width: 10%;  /* 第二列的宽度 */
 }
 
-#fraud-email-table th:nth-child(3) {
+#fraud-msg-table th:nth-child(3) {
     width: 80%;  /* 第三列的宽度 */
 }
