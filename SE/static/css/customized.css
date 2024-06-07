@@ -1,5 +1,7 @@
 /*-------------------------整体-----------------------------*/
 body {
+    position: relative;
+    z-index: 1;
     background: linear-gradient(to top, #b19cd8, #e0bbe4);
     padding-top: 70px;
 }
