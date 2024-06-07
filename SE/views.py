@@ -14,13 +14,10 @@ def welcome(request):
 
 def index(request):
     """防诈态势感知主界面"""
-    form = {
-        'phone_number': PhoneNumberModelForm(),
-        'msg': 'msg',
-        'ip': 'ip',
-    }
-
-    return render(request, 'index.html')
+    chart_data = [models.phone_number.objects.all().count(),
+                  models.msg.objects.all().count(),
+                  models.website.objects.all().count(),]
+    return render(request, 'index.html', {"chart_data": chart_data})
 
 
 def fraud_phone_number_list(request):
@@ -77,6 +74,3 @@ def ajax(request):
         'message': '提交成功'
     }
     return HttpResponse(json.dumps(response))
-
-
-

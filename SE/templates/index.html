@@ -25,20 +25,20 @@
                             // 指定图表的配置项和数据
                             var option = {
                                 title: {
-                                    text: 'ECharts 示例'
+                                    text: '信息库占比'
                                 },
                                 tooltip: {},
                                 legend: {
-                                    data: ['销量']
+                                    data: ['条数']
                                 },
                                 xAxis: {
-                                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+                                    data: ['电话号码', '短信', '网址']
                                 },
                                 yAxis: {},
                                 series: [{
-                                    name: '销量',
+                                    name: '条数',
                                     type: 'bar',
-                                    data: [5, 20, 36, 10, 10, 20]
+                                    data: {{chart_data}}
                                 }]
                             };
 
@@ -60,8 +60,8 @@
                             // 指定图表的配置项和数据
                             option = {
                                 title: {
-                                    text: 'Referer of a Website',
-                                    subtext: 'Fake Data',
+                                    text: '信息库组成',
+                                    subtext: '',
                                     left: 'center'
                                 },
                                 tooltip: {

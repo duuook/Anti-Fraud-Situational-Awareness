@@ -43,6 +43,7 @@ SE_db
 	- phonenumber 	//电话号码表
 	- website 		//网址表
 	- msg 			//短信内容表
+	- email			//邮箱表
 ```
 
 
@@ -53,6 +54,7 @@ SE_db
 >   - /index/fraud_phonenumber_list/
 >   - /index/fraud_ip_list/
 >   - /index/frauud_msg_list/
+>   - /index/fraud_email_list/
 > - /analysis_result
 
 
