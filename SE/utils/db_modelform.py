@@ -22,10 +22,10 @@ class msgModelForm(forms.ModelForm):
         model = models.msg
         fields = ['id', '短信类别', '短信内容']
 
-    # def __init__(self, *args, **kwargs):
-    #     super(msgModelForm, self).__init__(*args, **kwargs)
-    #     for name, field in self.fields.items():
-    #         field.widget.attrs = {'class': 'form-control'}
+    def __init__(self, *args, **kwargs):
+        super(msgModelForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs = {'class': 'form-control'}
 
 
 class WebsiteModelForm(forms.ModelForm):

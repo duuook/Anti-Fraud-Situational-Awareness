@@ -14,8 +14,13 @@ def welcome(request):
 
 def index(request):
     """防诈态势感知主界面"""
-    my_range = range(1, 50)
-    return render(request, 'index.html', {'my_range': my_range})
+    form = {
+        'phone_number': PhoneNumberModelForm(),
+        'msg': 'msg',
+        'ip': 'ip',
+    }
+
+    return render(request, 'index.html')
 
 
 def fraud_phone_number_list(request):
