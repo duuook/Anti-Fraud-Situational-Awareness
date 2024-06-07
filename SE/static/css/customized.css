@@ -54,6 +54,9 @@ body {
     border: none;
 }
 
+#search-content {
+    width: 300px;
+}
 
 /*-----------------------表格样式-----------------------*/
 table {

@@ -6,7 +6,7 @@
     {% block title %}
         <title>防诈态势感知</title>
     {% endblock %}
-<link rel="icon" href="{% static 'ico/安全可靠.ico' %}">
+    <link rel="icon" href="{% static 'ico/安全可靠.ico' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/customized.css' %}">
@@ -76,6 +76,11 @@
                                       style="margin-right: 5px"></span>
                                 可疑网址查询
                             </a></li>
+                            <li><a href="#" onclick="submitData('text_analysis')">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                      style="margin-right: 5px"></span>
+                                可疑文本分析
+                            </a></li>
                         </ul>
                     </div><!-- /btn-group -->
                 </div>
@@ -86,7 +91,7 @@
                     <button id="instruction"
                             type="button"
                             class="btn btn-default btn-lg dropdown-toggle"
-                            data-toggle="modal" data-target="#myModal"
+                            data-toggle="modal" data-target="#introductionModal"
                             style="background-color: transparent;border: none;font-size: 14px;font-weight: bold">
                         <span class="glyphicon glyphicon-question-sign"
                               aria-hidden="true"
@@ -101,7 +106,7 @@
 </nav>
 
 <!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade" id="introductionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -120,6 +125,36 @@
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         关闭
+                    </button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 搜索模态框（Modal） -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    搜索
+                </h4>
+            </div>
+            <div class="modal-body">
+                搜素
+            </div>
+            <div class="modal-footer">
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-success">
+                        开始分析
                     </button>
                 </div>
             </div>
@@ -163,6 +198,43 @@
     function submitData(type) {
         let input = $('#search-content').val();
 
+        //首先判断查询类型
+        if (type=== 'phone') {
+            if (1) {
+                $('#searchModal').modal('show');
+                console.log({"status": "error", "message": "手机号码格式错误"});
+                return;
+            }
+        } else if (type === 'email') {
+            if (1) {
+                $('#searchModal').modal('show');
+                console.log({"status": "error", "message": "邮箱格式错误"});
+                return;
+            }
+        } else if (type === 'ip') {
+            if (1) {
+                $('#searchModal').modal('show');
+                console.log({"status": "error", "message": "IP地址格式错误"});
+                return;
+            }
+        } else if (type === 'text_analysis') {
+            if (!input) {
+                $('#searchModal').modal('show');
+                console.log({"status": "error", "message": "输入内容为空"});
+                return;
+            }
+        } else {
+            $('#searchModal').modal('show');
+            console.log({"status": "error", "message": "系统错误"});
+            return;
+        }
+
+        // 如果输入内容为空则不首先进行传输，唤起模态框进行二次输入
+        if (!input) {
+            $('#searchModal').modal('show');
+            console.log({"status": "error", "message": "输入内容为空"});
+            return;
+        }
         $.ajax({
             url: '/ajax/',  // 你的提交数据的 URL
             type: 'POST',
