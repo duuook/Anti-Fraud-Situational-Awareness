@@ -6,6 +6,10 @@ body {
     padding-top: 70px;
 }
 
+.container{
+    width: 80vw;
+}
+
 /*面板宽度*/
 .index_panel {
     width: 1110px;

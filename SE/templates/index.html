@@ -11,7 +11,7 @@
     </div>
 
     {#第一层两个图表：柱状图、饼图#}
-    <div id="pie and prick">
+    <div id="pie and brain">
         <div class="container">
             <div class="col-md-6">
                 <div class="panel panel-default">
@@ -19,31 +19,49 @@
                         <!-- 形成图表 -->
                         <div id="myChart01" style="width: 100%;height:400px;"></div>
                         <script type="text/javascript">
-                            // 基于准备好的dom，初始化echarts实例
-                            var myChart = echarts.init(document.getElementById('myChart01'));
+                            var chartDom = document.getElementById('myChart01');
+                            var myChart = echarts.init(chartDom);
+                            var option;
 
-                            // 指定图表的配置项和数据
-                            var option = {
+                            option = {
                                 title: {
-                                    text: '信息库占比'
+                                    text: '分析维度图',
+                                    {#left: 'right',#}
+                                    {#top: 'bottom'#}
                                 },
-                                tooltip: {},
                                 legend: {
-                                    data: ['条数']
+                                    data: ['Allocated Budget', 'Actual Spending']
                                 },
-                                xAxis: {
-                                    data: ['电话号码', '短信', '网址']
+                                radar: {
+                                    // shape: 'circle',
+                                    indicator: [
+                                        {name: 'Sales', max: 6500},
+                                        {name: 'Administration', max: 16000},
+                                        {name: 'Information Technology', max: 30000},
+                                        {name: 'Customer Support', max: 38000},
+                                        {name: 'Development', max: 52000},
+                                        {name: 'Marketing', max: 25000}
+                                    ]
                                 },
-                                yAxis: {},
-                                series: [{
-                                    name: '条数',
-                                    type: 'bar',
-                                    data: {{chart_data}}
-                                }]
+                                series: [
+                                    {
+                                        name: 'Budget vs spending',
+                                        type: 'radar',
+                                        data: [
+                                            {
+                                                value: [4200, 3000, 20000, 35000, 50000, 18000],
+                                                name: 'Allocated Budget'
+                                            },
+                                            {
+                                                value: [5000, 14000, 28000, 26000, 42000, 21000],
+                                                name: 'Actual Spending'
+                                            }
+                                        ]
+                                    }
+                                ]
                             };
 
-                            // 使用刚指定的配置项和数据显示图表。
-                            myChart.setOption(option);
+                            option && myChart.setOption(option);
                         </script>
                     </div>
                 </div>
@@ -77,11 +95,9 @@
                                         type: 'pie',
                                         radius: '50%',
                                         data: [
-                                            {value: 1048, name: 'Search Engine'},
-                                            {value: 735, name: 'Direct'},
-                                            {value: 580, name: 'Email'},
-                                            {value: 484, name: 'Union Ads'},
-                                            {value: 300, name: 'Video Ads'}
+                                            {value: {{ chart_data.0 }}, name: '电话号码'},
+                                            {value: {{ chart_data.1 }}, name: '短信'},
+                                            {value: {{ chart_data.2 }}, name: '网址'},
                                         ],
                                         emphasis: {
                                             itemStyle: {
@@ -102,6 +118,100 @@
             </div>
         </div>
     </div>
+
+    <div id="bar chart">
+        <div class="container">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 形成图表 -->
+                        <div id="phone_number_chart" style="width: 100%;height:200px;"></div>
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('phone_number_chart'));
+
+                            // 指定图表的配置项和数据
+                            var option = {
+                                title: {
+                                    text: '信息库占比'
+                                },
+                                tooltip: {},
+                                legend: {
+                                    data: ['条数', '销量'],
+                                    selectedMode: 'single',
+                                },
+                                xAxis: {
+                                    data: ['电话号码', '短信', '网址']
+                                },
+                                yAxis: {},
+                                series: [{
+                                    name: '条数',
+                                    type: 'bar',
+                                    data: {{chart_data}}
+                                },
+                                    {
+                                        name: '销量',
+                                        type: 'bar',
+                                        data: [5, 20, 36]
+                                    }]
+                            };
+
+                            // 使用刚指定的配置项和数据显示图表。
+                            myChart.setOption(option);
+
+                            myChart.on('legendselectchanged', function (params) {
+                                var newAxisData;
+                                console.log(params);
+                                if (params.name === '条数') {
+                                    newAxisData = ['电话号码', '短信', '网址'];
+                                } else if (params.name === '销量') {
+                                    newAxisData = ['产品A', '产品B', '产品C'];
+                                }
+                                option.xAxis = {
+                                    data: newAxisData
+                                }
+                                myChart.setOption(option);
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 形成图表 -->
+                        <div id="myChart01" style="width: 100%;height:200px;"></div>
+                        <script type="text/javascript">
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 形成图表 -->
+                        <div id="myChart01" style="width: 100%;height:200px;"></div>
+                        <script type="text/javascript">
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <!-- 形成图表 -->
+                        <div id="myChart01" style="width: 100%;height:200px;"></div>
+                        <script type="text/javascript">
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     {#第二层第三个图表#}
     <div id="tables">
