@@ -119,100 +119,69 @@
         </div>
     </div>
 
-    <div id="bar chart">
-        <div class="container">
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- 形成图表 -->
-                        <div id="phone_number_chart" style="width: 100%;height:200px;"></div>
-                        <script type="text/javascript">
-                            // 基于准备好的dom，初始化echarts实例
-                            var myChart = echarts.init(document.getElementById('phone_number_chart'));
-
-                            // 指定图表的配置项和数据
-                            var option = {
-                                title: {
-                                    text: '信息库占比'
-                                },
-                                tooltip: {},
-                                legend: {
-                                    data: ['条数', '销量'],
-                                    selectedMode: 'single',
-                                },
-                                xAxis: {
-                                    data: ['电话号码', '短信', '网址']
-                                },
-                                yAxis: {},
-                                series: [{
-                                    name: '条数',
-                                    type: 'bar',
-                                    data: {{chart_data}}
-                                },
-                                    {
-                                        name: '销量',
-                                        type: 'bar',
-                                        data: [5, 20, 36]
-                                    }]
-                            };
-
-                            // 使用刚指定的配置项和数据显示图表。
-                            myChart.setOption(option);
-
-                            myChart.on('legendselectchanged', function (params) {
-                                var newAxisData;
-                                console.log(params);
-                                if (params.name === '条数') {
-                                    newAxisData = ['电话号码', '短信', '网址'];
-                                } else if (params.name === '销量') {
-                                    newAxisData = ['产品A', '产品B', '产品C'];
-                                }
-                                option.xAxis = {
-                                    data: newAxisData
-                                }
-                                myChart.setOption(option);
-                            });
-                        </script>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- 形成图表 -->
-                        <div id="myChart01" style="width: 100%;height:200px;"></div>
-                        <script type="text/javascript">
-
-                        </script>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- 形成图表 -->
-                        <div id="myChart01" style="width: 100%;height:200px;"></div>
-                        <script type="text/javascript">
-
-                        </script>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- 形成图表 -->
-                        <div id="myChart01" style="width: 100%;height:200px;"></div>
-                        <script type="text/javascript">
-
-                        </script>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+{#    <div id="bar chart">#}
+{#        <div class="container">#}
+{#            <div class="panel panel-default">#}
+{#                <div class="panel-body">#}
+{#                    <!-- 形成图表 -->#}
+{#                    <div id="phone_number_chart" style="width: 100%;height:200px;"></div>#}
+{#                    <script type="text/javascript">#}
+{#                        // 基于准备好的dom，初始化echarts实例#}
+{#                        var myChart = echarts.init(document.getElementById('phone_number_chart'));#}
+{##}
+{#                        // 指定图表的配置项和数据#}
+{#                        var option = {#}
+{#                            title: {#}
+{#                                text: '信息库占比',#}
+{#                                left: 'center',#}
+{#                                top: 'bottom'#}
+{#                            },#}
+{#                            tooltip: {},#}
+{#                            legend: {#}
+{#                                data: ['条数', '销量'],#}
+{#                                selectedMode: 'single',#}
+{#                            },#}
+{#                            xAxis: {#}
+{#                                data: ['电话号码', '短信', '网址']#}
+{#                            },#}
+{#                            yAxis: {},#}
+{#                            series: [{#}
+{#                                name: '条数',#}
+{#                                type: 'bar',#}
+{#                                barWidth: '50%',#}
+{#                                data: {{chart_data}}#}
+{#                            },#}
+{#                                {#}
+{#                                    name: '销量',#}
+{#                                    type: 'bar',#}
+{#                                    barWidth: '20px',#}
+{#                                    data: [5, 20, 36]#}
+{#                                }]#}
+{#                        };#}
+{##}
+{#                        // 使用刚指定的配置项和数据显示图表。#}
+{#                        myChart.setOption(option);#}
+{##}
+{#                        myChart.on('legendselectchanged', function (params) {#}
+{#                            var newAxisData;#}
+{#                            console.log(params);#}
+{#                            if (params.name === '条数') {#}
+{#                                newAxisData = ['电话号码', '短信', '网址'];#}
+{#                            } else if (params.name === '销量') {#}
+{#                                newAxisData = ['产品A', '产品B', '产品C'];#}
+{#                            }#}
+{#                            option.xAxis = {#}
+{#                                data: newAxisData#}
+{#                            }#}
+{#                            myChart.setOption(option);#}
+{#                        });#}
+{#                    </script>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+    
+    
     {#第二层第三个图表#}
     <div id="tables">
         <div class="container">
