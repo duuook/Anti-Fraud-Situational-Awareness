@@ -199,18 +199,18 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>电话号码</th>
+                                <th>电话类型</th>
+                                <th>标记次数</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for i in my_range %}
+                            {% for i in phone_number_slim %}
                                 <tr>
-                                    <th scope="row">{{ i }}</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <td>{{ i.id }}</td>
+                                    <td>{{ i.电话号码 }}</td>
+                                    <td>{{ i.电话类型 }}</td>
+                                    <td>{{ i.标记次数 }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -265,18 +265,16 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>网址域名</th>
+                                <th>诈骗类型</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for i in my_range %}
+                            {% for i in ip_slim %}
                                 <tr>
-                                    <th scope="row">{{ i }}</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <td>{{ i.id }}</td>
+                                    <td>{{ i.网站域名 }}</td>
+                                    <td>{{ i.诈骗类型 }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -299,7 +297,7 @@
         function index_scroll_table() {
             var scrollDiv = $('.scroll-index-table');
             var height = scrollDiv.prop('scrollHeight');
-            var speed = 80000;  // 滚动速度，单位为毫秒
+            var speed = 100000;  // 滚动速度，单位为毫秒
 
             function scrollToBottom() {
                 scrollDiv.animate({scrollTop: height}, speed, function () {
