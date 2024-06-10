@@ -14,10 +14,20 @@ def welcome(request):
 
 def index(request):
     """防诈态势感知主界面"""
-    chart_data = [models.phone_number.objects.all().count(),
-                  models.msg.objects.all().count(),
-                  models.website.objects.all().count(),]
-    return render(request, 'index.html', {"chart_data": chart_data})
+
+    chart_data = [
+        models.phone_number.objects.all().count(),
+        # models.email.objects.all().count(),
+        models.website.objects.all().count(),
+        models.msg.objects.all().count(),
+    ]
+    slim_data = {
+        'phone_number_slim': models.phone_number.objects.all()[:100],
+        'email_slim': models.email.objects.all()[:100],
+        'ip_slim': models.website.objects.all()[:100],
+        'chart_data': chart_data,
+    }
+    return render(request, 'index.html',slim_data )
 
 
 def fraud_phone_number_list(request):
