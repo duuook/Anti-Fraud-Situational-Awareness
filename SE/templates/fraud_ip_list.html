@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <div >
+    <div style="margin-top: 40px" >
         <div class="container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
@@ -33,7 +33,7 @@
                             <tr>
                                 <td style="text-align: center">{{ web.id }}</td>
                                 <td style="text-align: center">{{ web.网站域名 }}</td>
-                                <td style="text-align: center">{{ web.诈骗类型 }}</td>
+                                <td style="text-align: center">{{ web.get_诈骗类型_display }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
