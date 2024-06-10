@@ -12,7 +12,7 @@ class PhoneNumberModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PhoneNumberModelForm, self).__init__(*args, **kwargs)
         for name, field in self.fields.items():
-            field.widget.attrs = {'class': 'form-control'}
+            field.widget.attrs = {'style': 'text-align:center'}
 
 
 class msgModelForm(forms.ModelForm):
@@ -39,4 +39,3 @@ class WebsiteModelForm(forms.ModelForm):
         super(WebsiteModelForm, self).__init__(*args, **kwargs)
         for name, field in self.fields.items():
             field.widget.attrs = {'class': 'form-control'}
-
