@@ -97,7 +97,7 @@ thead th {
 
 /*信息库手动用滚动*/
 .scroll-list-table {
-    height: 500px;
+    height: 600px;
     overflow: auto;
     position: relative;
 }
