@@ -17,9 +17,9 @@ def index(request):
 
     chart_data = [
         models.phone_number.objects.all().count(),
-        # models.email.objects.all().count(),
         models.website.objects.all().count(),
         models.msg.objects.all().count(),
+        models.email.objects.all().count(),
     ]
     slim_data = {
         'phone_number_slim': models.phone_number.objects.all()[:100],
@@ -27,7 +27,7 @@ def index(request):
         'ip_slim': models.website.objects.all()[:100],
         'chart_data': chart_data,
     }
-    return render(request, 'index.html',slim_data )
+    return render(request, 'index.html', slim_data)
 
 
 def fraud_phone_number_list(request):
@@ -64,13 +64,20 @@ def fraud_ip_list(request):
 
 def fraud_email_list(request):
     """防诈态势感知-诈骗邮箱列表"""
-    my_range = range(1, 100)
-    return render(request, 'fraud_email_list.html', {'my_range': my_range})
+    email_list = models.email.objects.all()
+
+    return render(request, 'fraud_email_list.html', {'email_list': email_list})
 
 
 def analysis_result(request):
     """分析结果页面"""
-    return render(request, 'analysis_result.html')
+    if request.method == 'GET':
+        return render(request, 'analysis_result.html')
+
+    if request.method == 'POST':
+        # 获取前端传递的数据
+        data = request.POST
+        print(data)
 
 
 @csrf_exempt

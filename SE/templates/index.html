@@ -98,6 +98,7 @@
                                             {value: {{ chart_data.0 }}, name: '电话号码'},
                                             {value: {{ chart_data.1 }}, name: '短信'},
                                             {value: {{ chart_data.2 }}, name: '网址'},
+                                            {value: {{ chart_data.3 }}, name: '电子邮箱'},
                                         ],
                                         emphasis: {
                                             itemStyle: {
@@ -201,7 +202,6 @@
                                 <th>ID</th>
                                 <th>电话号码</th>
                                 <th>电话类型</th>
-                                <th>标记次数</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -210,7 +210,6 @@
                                     <td>{{ i.id }}</td>
                                     <td>{{ i.电话号码 }}</td>
                                     <td>{{ i.电话类型 }}</td>
-                                    <td>{{ i.标记次数 }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -232,18 +231,14 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>电子邮箱地址</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for i in my_range %}
+                            {% for i in email_slim %}
                                 <tr>
-                                    <th scope="row">{{ i }}</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <td>{{ i.id }}</td>
+                                    <td>{{ i.电子邮箱地址 }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -274,7 +269,7 @@
                                 <tr>
                                     <td>{{ i.id }}</td>
                                     <td>{{ i.网站域名 }}</td>
-                                    <td>{{ i.诈骗类型 }}</td>
+                                    <td>{{ i.get_诈骗类型_display }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

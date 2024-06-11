@@ -27,18 +27,14 @@
                         <thead>
                         <tr>
                             <th class="loose-bold-font" style="text-align: center">ID</th>
-                            <th class="loose-bold-font" style="text-align: center">电话号码</th>
-                            <th class="loose-bold-font" style="text-align: center">电话类型</th>
-                            <th class="loose-bold-font" style="text-align: center">标记次数</th>
+                            <th class="loose-bold-font" style="text-align: center">电子邮箱地址</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for i in my_range %}
+                        {% for i in email_list %}
                             <tr>
-                                <td style="text-align: center">{{ i }}</td>
-                                <td style="text-align: center">{{ i }}</td>
-                                <td style="text-align: center">{{ i }}</td>
-                                <td style="text-align: center">{{ i }}</td>
+                                <td style="text-align: center">{{ i.id }}</td>
+                                <td style="text-align: center">{{ i.电子邮箱地址 }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
