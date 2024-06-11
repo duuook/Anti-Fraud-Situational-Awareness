@@ -52,7 +52,7 @@
                 <div class="input-group">
                     <input id="search-content" type="text" class="form-control"
                            aria-label="Text input with dropdown button">
-                    <div class="input-group-btn">
+                    <div class="input-group-btn" id="navbutton">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-search" aria-hidden="true"
@@ -61,22 +61,22 @@
                             <span class="caret" style="margin-left: 5px"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#" onclick="submitData('phone')">
+                            <li><a href="#" class="button" onclick="updateType('phone')">
                                 <span class="glyphicon glyphicon-earphone" aria-hidden="true"
                                       style="margin-right: 5px"></span>
                                 可疑号码查询
                             </a></li>
-                            <li><a href="#" onclick="submitData('email')">
+                            <li><a href="#" class="button" onclick="updateType('email')">
                                 <span class="glyphicon glyphicon-envelope" aria-hidden="true"
                                       style="margin-right: 5px"></span>
                                 可疑邮箱查询
                             </a></li>
-                            <li><a href="#" onclick="submitData('ip')">
+                            <li><a href="#" class="button" onclick="updateType('ip')">
                                 <span class="glyphicon glyphicon-signal" aria-hidden="true"
                                       style="margin-right: 5px"></span>
                                 可疑网址查询
                             </a></li>
-                            <li><a href="#" onclick="submitData('text_analysis')">
+                            <li><a href="#" class="button" onclick="updateType('text_analysis')">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"
                                       style="margin-right: 5px"></span>
                                 可疑文本分析
@@ -141,19 +141,22 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="myModalLabel" style="text-align: center">
                     搜索
                 </h4>
             </div>
             <div class="modal-body">
-                搜素
+                <form id="search-form">
+                    <textarea type="text" class="form-control" id="navi-search" placeholder="请在此输入你的查询内容">
+                    </textarea>
+                </form>
             </div>
             <div class="modal-footer">
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         关闭
                     </button>
-                    <button type="button" class="btn btn-success">
+                    <button type="button" class="btn btn-success" form="search-form">
                         开始分析
                     </button>
                 </div>
@@ -175,6 +178,8 @@
 
 <script>
 
+    let currentType = ''; // 当前查询类型,全局变量
+
     // 从 cookie 中获取 csrftoken
     function getCookie(name) {
         let cookieValue = null;
@@ -194,12 +199,22 @@
 
     let csrftoken = getCookie('csrftoken');
 
+    // 当前查询类型更新
+    function updateType(type) {
+        currentType = type;
+        $('#searchModal').modal('show');
+
+    }
+
     // 提交查询数据
-    function submitData(type) {
+    function submitData() {
+        var type = currentType;
+
+        // 获取输入框的值
         let input = $('#search-content').val();
 
         //首先判断查询类型
-        if (type=== 'phone') {
+        if (type === 'phone') {
             if (1) {
                 $('#searchModal').modal('show');
                 console.log({"status": "error", "message": "手机号码格式错误"});
@@ -229,12 +244,7 @@
             return;
         }
 
-        // 如果输入内容为空则不首先进行传输，唤起模态框进行二次输入
-        if (!input) {
-            $('#searchModal').modal('show');
-            console.log({"status": "error", "message": "输入内容为空"});
-            return;
-        }
+
         $.ajax({
             url: '/ajax/',  // 你的提交数据的 URL
             type: 'POST',
@@ -259,10 +269,67 @@
 
     $(document).ready(function () {
 
+        // 绑定导航栏查询按钮的点击事件
+        $('#navbutton .button').click(function () {
+            // 获取当前点击的按钮的类型
+            let buttonType = $(this).attr('onclick').split("'")[1];
+
+            // 根据不同的按钮类型，生成不同的输入框
+            switch (buttonType) {
+                case 'phone':
+                    $('#navi-search').replaceWith('<input type="tel" class="form-control" id="navi-search" placeholder="请在此输入你的电话号码">');
+                    break;
+                case 'email':
+                    $('#navi-search').replaceWith('<input type="email" class="form-control" id="navi-search" placeholder="请在此输入你的邮箱地址">');
+                    break;
+                case 'ip':
+                    $('#navi-search').replaceWith('<input type="text" class="form-control" id="navi-search" placeholder="请在此输入你的IP地址">');
+                    break;
+                case 'text_analysis':
+                    $('#navi-search').replaceWith('<textarea class="form-control" id="navi-search" placeholder="请在此输入待分析文本"></textarea>');
+                    break;
+                default:
+                    $('#navi-search').replaceWith('<input type="text" class="form-control" id="navi-search" placeholder="请在此输入你的查询内容">');
+            }
+
+            // 获取 search-content 输入框的值
+            let inputValue = $('#search-content').val();
+
+            // 设置模态框输入框的值
+            $('#navi-search').val(inputValue);
+        });
+
         // 绑定查询按钮点击事件
         $('#toggle-trigger').click(function () {
             $('#dropdownMenu').dropdown('toggle');
+
         });
+
+        // 绑定模态框搜索按钮点击事件
+        $('#search-form').on('submit', function (event) {
+            event.preventDefault();
+
+            var type = currentType;
+
+            $.ajax({
+                url: '/analysis_result/',  // 替换为你的 URL
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                data: {
+                    value: $('#exampleInputEmail1').val()  // 获取表单数据
+                },
+                success: function (response) {
+                    // 处理服务器返回的响应
+                    console.log(response);
+                },
+                error: function (error) {
+                    // 处理错误
+                    console.log(error);
+                }
+            });
+        })
     });
 
 </script>

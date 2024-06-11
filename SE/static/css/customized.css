@@ -62,6 +62,10 @@ body {
     width: 300px;
 }
 
+textarea.form-control{
+    height:300px;
+}
+
 /*-----------------------表格样式-----------------------*/
 table {
     border-collapse: collapse;
@@ -107,6 +111,14 @@ thead th {
     height: 200px;
     overflow: auto;
     position: relative;
+}
+
+.scroll-index-table th{
+    text-align: center;
+}
+
+.scroll-index-table td{
+    text-align: center;
 }
 
 .scroll-index-table::-webkit-scrollbar {
