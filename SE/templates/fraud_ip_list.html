@@ -7,11 +7,71 @@
 {% endblock %}
 
 {% block content %}
-    <div style="margin-top: 40px" >
+    <div style="margin-top: 40px">
+        <div id="table-container" class="container">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form method="get">
+                            <div class="col-md-3" style="width: 300px">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">域名搜索</span>
+                                    <input type="text" name="sip" class="form-control"
+                                           value="{{ filter_condition }}" placeholder="Search for...">
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="width: 300px">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">诈骗类型</span>
+                                    <select name="stype" class="form-control">
+                                        {% for item in type_choices %}
+                                            <option value="{{ item.0 }}">{{ item.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary filter-button"
+                                    type="submit" style="margin-top: 10px;margin-left: 45%">
+                                筛 选
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#   分页器   #}
         <div class="container">
-            <div class="panel panel-default">
+            <ul class="pagination">
+                {{ page_str }}
+                <li>
+                    <form method="get" style="float: left;margin-left: -1px">
+                        <input name="page"
+                               style="position: relative;float: left;display: inline-block;width: 100px;border-radius:0 "
+                               type="number" class="form-control" placeholder="页码">
+                        <button id="jump-button" class="btn btn-default" type="submit">跳转</button>
+                    </form>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="container">
+            <div id="table-panel" class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading" style="font-weight: bold;text-align: center">涉诈网址库</div>
+                <div class="panel-heading" style="font-weight: bold;text-align: center">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true" style="margin-right: 5px"></span>
+                    涉诈网址库
+                </div>
                 <div class="panel-body">
                     <p>
                         此处收录了从网路上收集到的涉诈网址，信息会进行自动更新，以保证数据的准确性。
@@ -43,5 +103,32 @@
         </div>
     </div>
 
+{% endblock %}
 
+{% block js %}
+    <script>
+        document.getElementById('jump-button').addEventListener('click', function (event) {
+            var pageInput = document.querySelector('input[name="page"]');
+            if (!pageInput.value.trim()) {
+                event.preventDefault();
+                alert('请输入页码！');
+            }
+            if (parseInt(pageInput.value) > parseInt({{ total_page }})) {
+                event.preventDefault();
+                alert('页码超出范围！');
+            }
+            if (parseInt(pageInput.value) < 1) {
+                event.preventDefault();
+                alert('页码超出范围！');
+            }
+            if (isNaN(parseInt(pageInput.value))) {
+                event.preventDefault();
+                alert('请输入数字！');
+            }
+            if (parseInt(pageInput.value) === parseInt({{ current_page }})) {
+                event.preventDefault();
+                alert('已是当前页！');
+            }
+        });
+    </script>
 {% endblock %}
