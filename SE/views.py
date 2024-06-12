@@ -3,6 +3,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import mark_safe
 from SE.utils.db_modelform import *  # 这里的前驱路径需要完整打出
+from SE.utils.pagination import Pagination
 
 
 # Create your views here.
@@ -70,6 +71,7 @@ def fraud_ip_list(request):
         start = (page - 1) * page_size
         end = page * page_size
 
+        # 获取数据库总条数以及筛选后的数据
         if filter_type_condition != '0' and filter_type_condition != '':
             filter_ip_content = models.website.objects.filter(网站域名__contains=filter_ip_condition,
                                                               诈骗类型=filter_type_condition)[start:end]
@@ -84,7 +86,6 @@ def fraud_ip_list(request):
         total_page, m = divmod(total_count, page_size)
         if m:
             total_page += 1
-        print(total_page)
 
         # 2. 生成页码
         #   只显示前五页和后五页
@@ -134,14 +135,26 @@ def fraud_ip_list(request):
         last = '<li><a href="?page=%s"><span aria-hidden="true">尾页</span></a></li>' % total_page
         page_str_list.append(last)
 
-        page_str = mark_safe(''.join(page_str_list))
-
         """
         <li><a href="?page=2#">2</a></li
         <li><a href="?page=3">3</a></li>
         <li><a href="?page=4">4</a></li>
         <li><a href="?page=5">5</a></li>
         """
+
+        # 跳转框
+        jump = """<li>
+                    <form method="get" style="float: left;margin-left: -1px">
+                        <input name="page"
+                               style="position: relative;float: left;display: inline-block;width: 100px;border-radius:0 "
+                               type="number" class="form-control" placeholder="页码">
+                        <button id="jump-button" class="btn btn-default" type="submit">跳转</button>
+                    </form>
+                </li>
+                """
+        page_str_list.append(jump)
+
+        page_str = mark_safe(''.join(page_str_list))
 
         return render(request, 'fraud_ip_list.html',
                       {'websites': filter_ip_content, 'filter_condition': filter_ip_condition,
