@@ -49,17 +49,10 @@
         </div>
 
         {#   分页器   #}
-        <div class="container">
+        <div class="container" id="pagination">
             <ul class="pagination">
                 {{ page_str }}
-                <li>
-                    <form method="get" style="float: left;margin-left: -1px">
-                        <input name="page"
-                               style="position: relative;float: left;display: inline-block;width: 100px;border-radius:0 "
-                               type="number" class="form-control" placeholder="页码">
-                        <button id="jump-button" class="btn btn-default" type="submit">跳转</button>
-                    </form>
-                </li>
+                
 
             </ul>
 
