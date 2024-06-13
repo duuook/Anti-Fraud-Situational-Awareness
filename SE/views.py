@@ -34,28 +34,58 @@ def index(request):
 
 def fraud_phone_number_list(request):
     """"防诈态势感知-诈骗电话号码列表"""
-    my_range = range(1, 100)
-    """
-    # 此处用以填充数据库相关操作内容
-    """
     if request.method == 'GET':
-        form = PhoneNumberModelForm()
-        phone_numbers = models.phone_number.objects.all()
-        return render(request, 'fraud_phone_number_list.html', {'form': form, 'phone_numbers': phone_numbers})
+        # 获取筛选数据：
+        # sphone为筛选电话号码字段，stype为筛选类型
+        type_choices = (
+            (0, '正常'),
+            (1, '诈骗电话'),
+            (2, '骚扰电话'),
+            (3, '非法业务'),
+            (4, '网贷催收'),
+            (5, '广告推销'),
+            (6, '多多跨境'),
+            (7, '响一声挂')
+        )
+        filter_phone_condition = request.GET.get('sphone', '')
+        filter_type_condition = request.GET.get('stype', '')
 
-    return render(request, 'fraud_phone_number_list.html', {'my_range': my_range})
+        # 获取数据库总条数以及筛选后的数据
+        if filter_type_condition != '0' and filter_type_condition != '':
+            phone_numbers = models.phone_number.objects.filter(电话号码__contains=filter_phone_condition,
+                                                               电话类型=filter_type_condition)
+        else:
+            phone_numbers = models.phone_number.objects.filter(电话号码__contains=filter_phone_condition)
+
+        # 分页设计:
+        page_object = Pagination(request, filter_ip_content=phone_numbers, plus=10, method=request.method)
+
+        # 传递数据字典
+        context = {'phone_numbers': page_object.filter_ip_content, 'filter_condition': filter_phone_condition,
+                   'type_choices': type_choices, 'page_str': page_object.html(), 'total_page': page_object.total_page,
+                   'current_page': page_object.page}
+        return render(request, 'fraud_phone_number_list.html', context)
 
 
 def fraud_msg_list(request):
     """"防诈态势感知-诈骗短信列表"""
-    # my_range = range(1, 100)
-
     if request.method == 'GET':
-        form = msgModelForm()
-        msgs = models.msg.objects.filter(短信类别=1)
-        return render(request, 'fraud_msg_list.html', {'form': form, 'msgs': msgs})
+        filter_msg_content = models.msg.objects.filter(短信类别=1)
+
+        # 分页设计:
+        page_object = Pagination(request, filter_ip_content=filter_msg_content, plus=10, method=request.method)
+
+        # 传递数据字典
+        context = {
+            'msgs': page_object.filter_ip_content,
+            'page_str': page_object.html(),
+            'total_page': page_object.total_page,
+            'current_page': page_object.page
+        }
+        return render(request, 'fraud_msg_list.html', context)
 
 
+@csrf_exempt
 def fraud_ip_list(request):
     """防诈态势感知-诈骗IP列表"""
     if request.method == 'GET':
@@ -83,14 +113,24 @@ def fraud_ip_list(request):
         return render(request, 'fraud_ip_list.html', context)
 
 
-
-
 def fraud_email_list(request):
     """防诈态势感知-诈骗邮箱列表"""
     if request.method == 'GET':
-    # 获取筛选数据：
+        # 获取筛选数据：
+        # semail为筛选邮箱字段
+        filter_email_condition = request.GET.get('semail', '')
 
-    return render(request, 'fraud_email_list.html', {'email_list': email_list})
+        # 获取数据库总条数以及筛选后的数据
+        filter_email_content = models.email.objects.filter(电子邮箱地址__contains=filter_email_condition)
+
+        # 分页设计:
+        page_object = Pagination(request, filter_ip_content=filter_email_content, plus=10, method=request.method)
+
+        # 传递数据字典
+        context = {'email_list': page_object.filter_ip_content, 'filter_condition': filter_email_condition,
+                   'page_str': page_object.html(), 'total_page': page_object.total_page,
+                   'current_page': page_object.page}
+        return render(request, 'fraud_email_list.html', context)
 
 
 def analysis_result(request):

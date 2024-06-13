@@ -126,15 +126,11 @@ thead th {
 
 /*短信库格式*/
 #fraud-msg-table th:nth-child(1) {
-    width: 10%; /* 第一列的宽度 */
+    width: 20%; /* 第一列的宽度 */
 }
 
 #fraud-msg-table th:nth-child(2) {
-    width: 10%; /* 第二列的宽度 */
-}
-
-#fraud-msg-table th:nth-child(3) {
-    width: 80%; /* 第三列的宽度 */
+    width: 80%; /* 第二列的宽度 */
 }
 
 /*电话库格式*/

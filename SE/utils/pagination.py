@@ -12,7 +12,7 @@ class Pagination(object):
             page_str: 生成的页码
     """
 
-    def __init__(self, request, filter_ip_content, page_size=10, page_param="page", plus=5, method="GET"):
+    def __init__(self, request, filter_ip_content, page_size=15, page_param="page", plus=5, method="GET"):
         """
         :param request: 请求体
         :param filter_ip_content: 筛选后的数据
@@ -24,7 +24,7 @@ class Pagination(object):
         # 获取请求体中原本的GET数据
         self.query_dict = copy.deepcopy(request.GET)
         self.query_dict._mutable = True
-        print(self.query_dict.urlencode())
+        print('原查询参数'+self.query_dict.urlencode())
 
         # 获取前端传递的页码参数
         self.page_param = page_param
@@ -128,5 +128,7 @@ class Pagination(object):
         page_str_list.append(jump)
 
         page_str = mark_safe(''.join(page_str_list))
+
+        print("end of html()"+page_str)
 
         return page_str

@@ -9,6 +9,53 @@
 {% block content %}
 
     <div style="margin-top: 40px">
+        <div id="table-container" class="container">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form method="get">
+                            <div class="col-md-3" style="width: 300px">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">手机号码搜索</span>
+                                    <input type="text" name="sphone" class="form-control"
+                                           value="{{ filter_condition }}" placeholder="Search for...">
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="width: 300px">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">电话类型</span>
+                                    <select name="stype" class="form-control">
+                                        {% for item in type_choices %}
+                                            <option value="{{ item.1 }}">{{ item.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary filter-button"
+                                    type="submit" style="margin-top: 10px;margin-left: 45%">
+                                筛 选
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#   分页器   #}
+        <div class="container" id="pagination">
+            <ul class="pagination">
+                {{ page_str }}
+            </ul>
+        </div>
+
         <div class="container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->

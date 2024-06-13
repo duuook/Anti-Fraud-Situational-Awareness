@@ -114,29 +114,6 @@
                 return;
             }
 
-            // 获取当前 URL 中的查询字符串
-            var params = new URLSearchParams(window.location.search);
-            var queryString = params.toString();
-            // 获取跳转框中的查询页码
-            var pageInput = $('input[name="page"]');
-            var pageNumber = pageInput.val().trim();
-
-            // 使用 AJAX 将页码发送到后端
-            $.ajax({
-                url: '/fraud_ip_list/?' + queryString + '&page=' + pageNumber,  // 替换为你的后端接口
-                type: 'GET',
-                data: {
-                    'page': pageNumber
-                },
-                success: function (response) {
-                    // 在这里处理服务器返回的响应
-                    console.log('jump success');
-                },
-                error: function (error) {
-                    // 在这里处理错误
-                    console.log('jump error');
-                }
-            });
         });
     </script>
 {% endblock %}
