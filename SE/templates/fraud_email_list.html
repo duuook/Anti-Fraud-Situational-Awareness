@@ -9,6 +9,43 @@
 {% block content %}
 
     <div style="margin-top: 40px">
+        <div id="table-container" class="container">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form method="get">
+                            <div class="col-md-3" style="width: 300px">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">邮箱搜索</span>
+                                    <input type="text" name="semail" class="form-control"
+                                           value="{{ filter_condition }}" placeholder="Search for...">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary filter-button"
+                                    type="submit" style="margin-top: 10px;margin-left: 45%">
+                                筛 选
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#   分页器   #}
+        <div class="container" id="pagination">
+            <ul class="pagination">
+                {{ page_str }}
+            </ul>
+        </div>
+
         <div class="container">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
@@ -45,4 +82,61 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        document.getElementById('jump-button').addEventListener('click', function (event) {
+            var pageInput = document.querySelector('input[name="page"]');
+            if (!pageInput.value.trim()) {
+                event.preventDefault();
+                alert('请输入页码！');
+                return;
+            }
+            if (parseInt(pageInput.value) > parseInt({{ total_page }})) {
+                event.preventDefault();
+                alert('页码超出范围！');
+                return;
+            }
+            if (parseInt(pageInput.value) < 1) {
+                event.preventDefault();
+                alert('页码超出范围！');
+                return;
+            }
+            if (isNaN(parseInt(pageInput.value))) {
+                event.preventDefault();
+                alert('请输入数字！');
+                return;
+            }
+            if (parseInt(pageInput.value) === parseInt({{ current_page }})) {
+                event.preventDefault();
+                alert('已是当前页！');
+                return;
+            }
+
+            // 获取当前 URL 中的查询字符串
+            var params = new URLSearchParams(window.location.search);
+            var queryString = params.toString();
+            // 获取跳转框中的查询页码
+            var pageInput = $('input[name="page"]');
+            var pageNumber = pageInput.val().trim();
+
+            // 使用 AJAX 将页码发送到后端
+            $.ajax({
+                url: '/fraud_ip_list/?' + queryString + '&page=' + pageNumber,  // 替换为你的后端接口
+                type: 'GET',
+                data: {
+                    'page': pageNumber
+                },
+                success: function (response) {
+                    // 在这里处理服务器返回的响应
+                    console.log('jump success');
+                },
+                error: function (error) {
+                    // 在这里处理错误
+                    console.log('jump error');
+                }
+            });
+        });
+    </script>
 {% endblock %}

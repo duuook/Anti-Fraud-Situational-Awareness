@@ -87,7 +87,8 @@ def fraud_ip_list(request):
 
 def fraud_email_list(request):
     """防诈态势感知-诈骗邮箱列表"""
-    email_list = models.email.objects.all()
+    if request.method == 'GET':
+    # 获取筛选数据：
 
     return render(request, 'fraud_email_list.html', {'email_list': email_list})
 
