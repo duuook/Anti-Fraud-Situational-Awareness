@@ -69,26 +69,20 @@ def fraud_ip_list(request):
         if filter_type_condition != '0' and filter_type_condition != '':
             filter_ip_content = models.website.objects.filter(网站域名__contains=filter_ip_condition,
                                                               诈骗类型=filter_type_condition)
-            total_count = models.website.objects.filter(网站域名__contains=filter_ip_condition,
-                                                        诈骗类型=filter_type_condition).count()
         else:
             filter_ip_content = models.website.objects.filter(网站域名__contains=filter_ip_condition)
-            total_count = models.website.objects.filter(网站域名__contains=filter_ip_condition).count()
 
         # 分页设计:
-        page_object = Pagination(request, filter_ip_content=filter_ip_content, plus=10)
-
-        filter_ip_content = page_object.filter_ip_content
-        page_str = page_object.html()
-        total_page = page_object.total_page
-        page = page_object.page
+        page_object = Pagination(request, filter_ip_content=filter_ip_content, plus=10, method=request.method)
 
         # 传递数据字典
-        context = {'websites': filter_ip_content, 'filter_condition': filter_ip_condition,
-                   'type_choices': type_choices, 'page_str': page_str, 'total_page': total_page,
-                   'current_page': page}
+        context = {'websites': page_object.filter_ip_content, 'filter_condition': filter_ip_condition,
+                   'type_choices': type_choices, 'page_str': page_object.html(), 'total_page': page_object.total_page,
+                   'current_page': page_object.page}
 
         return render(request, 'fraud_ip_list.html', context)
+
+
 
 
 def fraud_email_list(request):

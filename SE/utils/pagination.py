@@ -12,7 +12,7 @@ class Pagination(object):
             page_str: 生成的页码
     """
 
-    def __init__(self, request, filter_ip_content, page_size=10, page_param="page", plus=5):
+    def __init__(self, request, filter_ip_content, page_size=10, page_param="page", plus=5, method="GET"):
         """
         :param request: 请求体
         :param filter_ip_content: 筛选后的数据
@@ -21,9 +21,12 @@ class Pagination(object):
         :param plus: 单边展示的页码数
         """
 
+        # 获取请求体中原本的GET数据
         self.query_dict = copy.deepcopy(request.GET)
         self.query_dict._mutable = True
+        print(self.query_dict.urlencode())
 
+        # 获取前端传递的页码参数
         self.page_param = page_param
 
         page = request.GET.get(page_param, "1")
@@ -79,7 +82,8 @@ class Pagination(object):
         if self.page == 1:
             prev = '<li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span></a></li>'
         else:
-            prev = '<li><a href="?page=%s"><span aria-hidden="true">&laquo;</span></a></li>' % (self.page - 1)
+            self.query_dict[self.page_param] = self.page - 1
+            prev = '<li><a href="?%s"><span aria-hidden="true">&laquo;</span></a></li>' % (self.query_dict.urlencode())
         page_str_list.append(prev)
 
         for i in range(page_start, page_end):
