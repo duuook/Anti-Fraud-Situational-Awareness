@@ -157,7 +157,7 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         关闭
                     </button>
-                    <button type="button" class="btn btn-success" form="search-form">
+                    <button type="submit" class="btn btn-success" form="search-form">
                         开始分析
                     </button>
                 </div>
@@ -212,42 +212,11 @@
         var type = currentType;
 
         // 获取输入框的值
-        let input = $('#search-content').val();
-
-        //首先判断查询类型
-        if (type === 'phone') {
-            if (1) {
-                $('#searchModal').modal('show');
-                console.log({"status": "error", "message": "手机号码格式错误"});
-                return;
-            }
-        } else if (type === 'email') {
-            if (1) {
-                $('#searchModal').modal('show');
-                console.log({"status": "error", "message": "邮箱格式错误"});
-                return;
-            }
-        } else if (type === 'ip') {
-            if (1) {
-                $('#searchModal').modal('show');
-                console.log({"status": "error", "message": "IP地址格式错误"});
-                return;
-            }
-        } else if (type === 'text_analysis') {
-            if (!input) {
-                $('#searchModal').modal('show');
-                console.log({"status": "error", "message": "输入内容为空"});
-                return;
-            }
-        } else {
-            $('#searchModal').modal('show');
-            console.log({"status": "error", "message": "系统错误"});
-            return;
-        }
+        let input = $('#navi-search').val();
 
 
         $.ajax({
-            url: '/ajax/',  // 你的提交数据的 URL
+            url: '/analysis_result/',  // 你的提交数据的 URL
             type: 'POST',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -260,6 +229,8 @@
             success: function (response) {
                 // 处理服务器返回的响应
                 console.log(response);
+                // 页面跳转
+                window.location.href = '/analysis_result/?input='+input+'&type='+type;
             },
             error: function (error) {
                 // 处理错误
@@ -312,24 +283,7 @@
 
             var type = currentType;
 
-            $.ajax({
-                url: '/analysis_result/',  // 替换为你的 URL
-                type: 'POST',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                },
-                data: {
-                    value: $('#exampleInputEmail1').val()  // 获取表单数据
-                },
-                success: function (response) {
-                    // 处理服务器返回的响应
-                    console.log(response);
-                },
-                error: function (error) {
-                    // 处理错误
-                    console.log(error);
-                }
-            });
+            submitData();
         })
     });
 
