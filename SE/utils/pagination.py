@@ -24,7 +24,7 @@ class Pagination(object):
         # 获取请求体中原本的GET数据
         self.query_dict = copy.deepcopy(request.GET)
         self.query_dict._mutable = True
-        print('原查询参数'+self.query_dict.urlencode())
+        # print('原查询参数'+self.query_dict.urlencode())
 
         # 获取前端传递的页码参数
         self.page_param = page_param
