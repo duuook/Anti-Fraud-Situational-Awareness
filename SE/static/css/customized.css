@@ -150,4 +150,41 @@ thead th {
     width: 20%; /* 第四列的宽度 */
 }
 
-/*-----------------------筛选输入框和表格-----------------------*/
+/*-----------------------巨幕组件-----------------------*/
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0); /* 白色半透明 */
+}
+
+.flex-container {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+}
+
+#border-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    background: #2ec4b6;
+    text-transform: uppercase;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 30px;
+    outline: none;
+    position: relative;
+    transition: border-radius 3s;
+    -webkit-transition: border-radius 3s;
+}
+
+button:hover {
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
