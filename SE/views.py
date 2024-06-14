@@ -136,12 +136,24 @@ def fraud_email_list(request):
 def analysis_result(request):
     """分析结果页面"""
     if request.method == 'GET':
+        data = request.GET.get('input')
+        stype = request.GET.get('stype')
+
+        """
+            此处填入分析算法 
+        """
+
         return render(request, 'analysis_result.html')
 
     if request.method == 'POST':
         # 获取前端传递的数据
         data = request.POST
         print(data)
+        response = {
+            'status': 200,
+            'message': '提交成功'
+        }
+        return HttpResponse(json.dumps(response))
 
 
 @csrf_exempt
