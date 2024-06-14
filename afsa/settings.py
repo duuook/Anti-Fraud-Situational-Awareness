@@ -90,16 +90,6 @@ WSGI_APPLICATION = 'afsa.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SE_db',  # 数据库名
-        'USER': 'root',  # 用户名
-        'PASSWORD': '!A123456',  # 密码
-        'HOST': 'gz-cynosdbmysql-grp-ey0itk0t.sql.tencentcdb.com',  # 主机，云数据库用的外网地址
-        'PORT': 20269,  # 云数据库的端口号
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
