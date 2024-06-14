@@ -1,7 +1,6 @@
-import copy
-
-from django.shortcuts import render, redirect, HttpResponse
 import json
+from SE.LSTM import LSTM
+from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from SE.utils.db_modelform import *  # 这里的前驱路径需要完整打出
 from SE.utils.pagination import Pagination
@@ -139,10 +138,13 @@ def analysis_result(request):
         data = request.GET.get('input')
         stype = request.GET.get('stype')
 
-        """
-            此处填入分析算法 
-        """
+        # ----------------------------服务函数-------------------------------------
+        if stype == 'text_analysis':
+            # 文本分析
+            analysis_report = LSTM.text_analysis(data)
+            return render(request, 'analysis_result.html', analysis_report)
 
+        # ------------------------------------------------------------------------
         return render(request, 'analysis_result.html')
 
     if request.method == 'POST':

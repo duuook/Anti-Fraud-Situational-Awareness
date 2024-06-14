@@ -7,11 +7,14 @@
 {% endblock %}
 
 {% block content %}
+    <!-- 将后端传来的字典转化为json -->
+    {{ Get_keywords_report|json_script:"Get_keywords_report" }}
+    {{ Text_predict_report|json_script:"Text_predict_report" }}
 
     <div class="jumbotron container">
         <p style="margin-left: 100px">您输入的内容为诈骗的概率为</p>
         <div class="flex-container" style="margin-left: 250px">
-            <h1 style="color: red">99%</h1>
+            <h1 style="color: red">{{ Text_predict_report.probability }}</h1>
             <button class="btn" id="border-btn" style="font-weight: bold;margin-left: 25%;font-size:25px ">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="margin-right: 10px"></span>
                 查 看 详 情
@@ -32,27 +35,31 @@
                             var myChart01 = echarts.init(document.getElementById('myChart01'));
 
                             // 指定图表的配置项和数据
-                            var option = {
+                            var option01 = {
                                 title: {
-                                    text: 'ECharts 示例'
+                                    text: '关键词提取'
                                 },
                                 tooltip: {},
                                 legend: {
-                                    data: ['销量']
+                                    data: ['词数', '词频']
                                 },
                                 xAxis: {
                                     data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
                                 },
                                 yAxis: {},
                                 series: [{
-                                    name: '销量',
+                                    name: '词数',
                                     type: 'bar',
                                     data: [5, 20, 36, 10, 10, 20]
+                                },{
+                                    name: '词频',
+                                    type: 'bar',
+                                    data: [5, 20, 36, 10, 10, 20]
+
                                 }]
                             };
 
-                            // 使用刚指定的配置项和数据显示图表。
-                            myChart01.setOption(option);
+
                         </script>
                     </div>
                 </div>
@@ -66,11 +73,12 @@
                             // 基于准备好的dom，初始化echarts实例
                             var myChart02 = echarts.init(document.getElementById('pieChart01'));
 
+
                             // 指定图表的配置项和数据
-                            option = {
+                            option02 = {
                                 title: {
-                                    text: 'Referer of a Website',
-                                    subtext: 'Fake Data',
+                                    text: '诈骗概率',
+                                    subtext: '',
                                     left: 'center'
                                 },
                                 tooltip: {
@@ -103,8 +111,7 @@
                                 ]
                             };
 
-                            // 使用刚指定的配置项和数据显示图表。
-                            myChart02.setOption(option);
+
                         </script>
                     </div>
                 </div>
@@ -154,6 +161,24 @@
 
             myChart01.resize();
             myChart02.resize();
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart01.setOption(option01);
+            // 使用刚指定的配置项和数据显示图表。
+            myChart02.setOption(option02);
         });
+
+        // 将后端传来的json转化为数组
+        function Get_bar_series_data (element_name) {
+            var my_json = JSON.parse(document.getElementById(element_name).textContent);
+            var data = [];
+            for (var key in my_json) {
+                data.push({
+                    name: key,
+                    value: my_json[key]
+                });
+            }
+            return data;
+        }
     </script>
 {% endblock %}
