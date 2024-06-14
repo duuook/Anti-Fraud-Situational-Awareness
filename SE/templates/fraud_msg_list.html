@@ -10,13 +10,6 @@
     <div style="margin-top: 40px">
         <div class="container">
 
-            {#   分页器   #}
-            <div class="container" id="pagination">
-                <ul class="pagination">
-                    {{ page_str }}
-                </ul>
-            </div>
-
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading" style="font-weight: bold;text-align: center">
@@ -49,6 +42,13 @@
                     </table>
                 </div>
             </div>
+        </div>
+
+        {#   分页器   #}
+        <div class="container" id="pagination">
+            <ul class="pagination">
+                {{ page_str }}
+            </ul>
         </div>
     </div>
 
