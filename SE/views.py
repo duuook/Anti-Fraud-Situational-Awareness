@@ -137,12 +137,18 @@ def analysis_result(request):
     if request.method == 'GET':
         data = request.GET.get('input')
         stype = request.GET.get('stype')
+        print(data, stype)
 
         # ----------------------------服务函数-------------------------------------
         if stype == 'text_analysis':
             # 文本分析
             analysis_report = LSTM.text_analysis(data)
-            return render(request, 'analysis_result.html', analysis_report)
+            print(analysis_report)
+            context = {
+                'Get_keywords_report': analysis_report['Get_keywords_report'],
+                'Text_predict_report': analysis_report['Text_predict_report'],
+            }
+            return render(request, 'analysis_result.html', context)
 
         # ------------------------------------------------------------------------
         return render(request, 'analysis_result.html')

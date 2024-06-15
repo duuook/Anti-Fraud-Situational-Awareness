@@ -18,15 +18,21 @@ def text_analysis(text):
         }
 
     elif size > 0:
-        Keywords_n_Fre = []
+        Fre = []
+        Num = []
+        keywords = []
         for index, key in enumerate(ans):
+            keywords.append(key[0])
             fre = len(key[0]) / len(text)
-            fre = '{:.0%}'.format(fre)
-            Keywords_n_Fre.append((key[1], fre))
+            # fre = '{:.0%}'.format(fre)
+            Fre.append(fre)
+            Num.append(int(key[1]))
+
         Get_keywords_report = {
             'status': 1,
-            'Keywords_n_Num': ans,
-            'Keywords_n_Fre': Keywords_n_Fre,
+            'Keywords': keywords,
+            'Keywords_Num': Num,
+            'Keywords_Frequency': Fre,
         }
 
     else:
@@ -40,13 +46,17 @@ def text_analysis(text):
     if not flag:
         Text_predict_report = {
             'status': 0,
-            'error': title,
+            'error': int(title)
         }
     else:
+        probability_arr = []
+        for i in probability:
+            probability_arr.append('%.3f' % i)
+        print(probability_arr)
         Text_predict_report = {
             'status': 1,
-            'title': title,
-            'probability': probability,
+            'title': int(title),
+            'probability': probability_arr,
         }
 
     # 返回分析报告

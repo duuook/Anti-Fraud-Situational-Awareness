@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -209,8 +210,8 @@
 
     // 提交查询数据
     function submitData() {
-        var type = currentType;
-
+        var stype = currentType;
+        console.log(stype);
         // 获取输入框的值
         let input = $('#navi-search').val();
 
@@ -222,7 +223,7 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             data: {
-                action: type,
+                action: stype,
                 value: input
             },
             dataType: "JSON",
@@ -230,7 +231,7 @@
                 // 处理服务器返回的响应
                 console.log(response);
                 // 页面跳转
-                window.location.href = '/analysis_result/?input='+input+'&type='+type;
+                window.location.href = '/analysis_result/?input='+input+'&stype='+stype;
             },
             error: function (error) {
                 // 处理错误

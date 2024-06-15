@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load my_filters %}
 
 {% block title %}
     <title>
@@ -8,13 +9,13 @@
 
 {% block content %}
     <!-- 将后端传来的字典转化为json -->
-    {{ Get_keywords_report|json_script:"Get_keywords_report" }}
-    {{ Text_predict_report|json_script:"Text_predict_report" }}
+    {{ Get_keywords_report|json_script:"Get_keywords_report_json" }}
+    {{ Text_predict_report|json_script:"Text_predict_report_json" }}
 
     <div class="jumbotron container">
         <p style="margin-left: 100px">您输入的内容为诈骗的概率为</p>
         <div class="flex-container" style="margin-left: 250px">
-            <h1 style="color: red">{{ Text_predict_report.probability }}</h1>
+            <h1 style="color: red">{{ Text_predict_report.probability.0 }}</h1>
             <button class="btn" id="border-btn" style="font-weight: bold;margin-left: 25%;font-size:25px ">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="margin-right: 10px"></span>
                 查 看 详 情
@@ -30,37 +31,6 @@
                     <div class="panel-body">
                         <!-- 形成图表 -->
                         <div id="myChart01" style="width: 100%;height:400px;"></div>
-                        <script type="text/javascript">
-                            // 基于准备好的dom，初始化echarts实例
-                            var myChart01 = echarts.init(document.getElementById('myChart01'));
-
-                            // 指定图表的配置项和数据
-                            var option01 = {
-                                title: {
-                                    text: '关键词提取'
-                                },
-                                tooltip: {},
-                                legend: {
-                                    data: ['词数', '词频']
-                                },
-                                xAxis: {
-                                    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-                                },
-                                yAxis: {},
-                                series: [{
-                                    name: '词数',
-                                    type: 'bar',
-                                    data: [5, 20, 36, 10, 10, 20]
-                                },{
-                                    name: '词频',
-                                    type: 'bar',
-                                    data: [5, 20, 36, 10, 10, 20]
-
-                                }]
-                            };
-
-
-                        </script>
                     </div>
                 </div>
             </div>
@@ -69,50 +39,6 @@
                     <div class="panel-body">
                         <!-- 在这里放置第二个图表 -->
                         <div id="pieChart01" style="width: 100%;height:400px;"></div>
-                        <script type="text/javascript">
-                            // 基于准备好的dom，初始化echarts实例
-                            var myChart02 = echarts.init(document.getElementById('pieChart01'));
-
-
-                            // 指定图表的配置项和数据
-                            option02 = {
-                                title: {
-                                    text: '诈骗概率',
-                                    subtext: '',
-                                    left: 'center'
-                                },
-                                tooltip: {
-                                    trigger: 'item'
-                                },
-                                legend: {
-                                    orient: 'vertical',
-                                    left: 'left'
-                                },
-                                series: [
-                                    {
-                                        name: 'Access From',
-                                        type: 'pie',
-                                        radius: '50%',
-                                        data: [
-                                            {value: 1048, name: 'Search Engine'},
-                                            {value: 735, name: 'Direct'},
-                                            {value: 580, name: 'Email'},
-                                            {value: 484, name: 'Union Ads'},
-                                            {value: 300, name: 'Video Ads'}
-                                        ],
-                                        emphasis: {
-                                            itemStyle: {
-                                                shadowBlur: 10,
-                                                shadowOffsetX: 0,
-                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                            }
-                                        }
-                                    }
-                                ]
-                            };
-
-
-                        </script>
                     </div>
                 </div>
             </div>
@@ -154,7 +80,92 @@
 
 
 {% block js %}
-    <script>
+    <script type="text/javascript">
+        // 将后端传来的json转化为数组
+        function Get_bar_series_data(element_name,my_key) {
+            var my_json = JSON.parse(document.getElementById(element_name).textContent);
+            console.log(my_json);
+            return my_json[my_key];
+        }
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart01 = echarts.init(document.getElementById('myChart01'));
+
+        // 指定图表的配置项和数据
+        var option01 = {
+            title: {
+                text: '关键词提取'
+            },
+            tooltip: {},
+            legend: {
+                data: ['词数', '词频']
+            },
+            xAxis: {
+                data: Get_bar_series_data('Get_keywords_report_json','Keywords')
+            },
+            yAxis: {},
+            series: [{
+                name: '词数',
+                type: 'bar',
+                data: Get_bar_series_data('Get_keywords_report_json','Keywords_Num')
+
+            }, {
+                name: '词频',
+                type: 'bar',
+                data: Get_bar_series_data('Get_keywords_report_json','Keywords_Frequency')
+            }]
+        };
+
+        function Get_pie_series_data(element_name) {
+            var my_json = JSON.parse(document.getElementById(element_name).textContent);
+            console.log(my_json);
+            var data = [];
+            if (my_json['title']) {
+                data.push({name: '非诈骗', value: my_json['probability'][0]});
+                data.push({name: '诈骗', value: my_json['probability'][1]});
+            } else {
+                data.push({name: '诈骗', value: my_json['probability'][0]});
+                data.push({name: '非诈骗', value: my_json['probability'][1]});
+            }
+            return data;
+        }
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart02 = echarts.init(document.getElementById('pieChart01'));
+
+
+        // 指定图表的配置项和数据
+        option02 = {
+            title: {
+                text: '诈骗概率',
+                subtext: '',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [
+                {
+                    name: 'Access From',
+                    type: 'pie',
+                    radius: '50%',
+                    data: Get_pie_series_data('Text_predict_report_json'),
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+
         document.getElementById('border-btn').addEventListener('click', function () {
             document.getElementById('analysis-bar-pie').style.display = 'block';
             document.getElementById('analysis-detail').style.display = 'block';
@@ -168,17 +179,6 @@
             myChart02.setOption(option02);
         });
 
-        // 将后端传来的json转化为数组
-        function Get_bar_series_data (element_name) {
-            var my_json = JSON.parse(document.getElementById(element_name).textContent);
-            var data = [];
-            for (var key in my_json) {
-                data.push({
-                    name: key,
-                    value: my_json[key]
-                });
-            }
-            return data;
-        }
+
     </script>
 {% endblock %}
