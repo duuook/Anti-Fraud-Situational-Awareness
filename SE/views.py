@@ -143,10 +143,44 @@ def analysis_result(request):
         if stype == 'text_analysis':
             # 文本分析
             analysis_report = LSTM.text_analysis(data)
-            print(analysis_report)
+            # 错误处理
+            if analysis_report['Get_keywords_report']['status'] == 0:
+                context = {
+                    "error": analysis_report['Get_keywords_report']['error'],
+                }
+                return render(request, 'analysis_error.html', context)
+            elif analysis_report['Text_predict_report']['status'] == 0:
+                context = {
+                    "error": analysis_report['Text_predict_report']['error'],
+                }
+                return render(request, 'analysis_error.html', context)
             context = {
                 'Get_keywords_report': analysis_report['Get_keywords_report'],
                 'Text_predict_report': analysis_report['Text_predict_report'],
+            }
+            return render(request, 'analysis_result.html', context)
+
+        if stype == 'phone':
+            # 电话号码查询
+            phone_number = models.phone_number.objects.filter(电话号码=data)
+            context = {
+                'phone_number': phone_number,
+            }
+            return render(request, 'analysis_result.html', context)
+
+        if stype == 'email':
+            # 邮箱查询
+            email = models.email.objects.filter(电子邮箱地址=data)
+            context = {
+                'email': email,
+            }
+            return render(request, 'analysis_result.html', context)
+
+        if stype == 'ip':
+            # IP查询
+            ip = models.website.objects.filter(网站域名=data)
+            context = {
+                'ip': ip,
             }
             return render(request, 'analysis_result.html', context)
 

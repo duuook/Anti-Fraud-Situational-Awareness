@@ -46,7 +46,7 @@ def text_analysis(text):
     if not flag:
         Text_predict_report = {
             'status': 0,
-            'error': int(title)
+            'error': title
         }
     else:
         probability_arr = []
