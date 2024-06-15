@@ -132,6 +132,7 @@ def fraud_email_list(request):
         return render(request, 'fraud_email_list.html', context)
 
 
+@csrf_exempt
 def analysis_result(request):
     """分析结果页面"""
     if request.method == 'GET':
