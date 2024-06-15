@@ -15,7 +15,7 @@
     <div class="jumbotron container">
         <p style="margin-left: 100px">您输入的内容为诈骗的概率为</p>
         <div class="flex-container" style="margin-left: 250px">
-            <h1 style="color: red">{{ Text_predict_report.probability.0 }}</h1>
+            <h1 style="color: red">{{ Text_predict_report.probability.1 }}</h1>
             <button class="btn" id="border-btn" style="font-weight: bold;margin-left: 25%;font-size:25px ">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="margin-right: 10px"></span>
                 查 看 详 情
@@ -82,7 +82,7 @@
 {% block js %}
     <script type="text/javascript">
         // 将后端传来的json转化为数组
-        function Get_bar_series_data(element_name,my_key) {
+        function Get_bar_series_data(element_name, my_key) {
             var my_json = JSON.parse(document.getElementById(element_name).textContent);
             console.log(my_json);
             return my_json[my_key];
@@ -101,18 +101,18 @@
                 data: ['词数', '词频']
             },
             xAxis: {
-                data: Get_bar_series_data('Get_keywords_report_json','Keywords')
+                data: Get_bar_series_data('Get_keywords_report_json', 'Keywords')
             },
             yAxis: {},
             series: [{
                 name: '词数',
                 type: 'bar',
-                data: Get_bar_series_data('Get_keywords_report_json','Keywords_Num')
+                data: Get_bar_series_data('Get_keywords_report_json', 'Keywords_Num')
 
             }, {
                 name: '词频',
                 type: 'bar',
-                data: Get_bar_series_data('Get_keywords_report_json','Keywords_Frequency')
+                data: Get_bar_series_data('Get_keywords_report_json', 'Keywords_Frequency')
             }]
         };
 
@@ -120,13 +120,8 @@
             var my_json = JSON.parse(document.getElementById(element_name).textContent);
             console.log(my_json);
             var data = [];
-            if (my_json['title']) {
-                data.push({name: '非诈骗', value: my_json['probability'][0]});
-                data.push({name: '诈骗', value: my_json['probability'][1]});
-            } else {
-                data.push({name: '诈骗', value: my_json['probability'][0]});
-                data.push({name: '非诈骗', value: my_json['probability'][1]});
-            }
+            data.push({name: '非诈骗', value: my_json['probability'][0]});
+            data.push({name: '诈骗', value: my_json['probability'][1]});
             return data;
         }
 
