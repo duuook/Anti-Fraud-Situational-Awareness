@@ -1,5 +1,5 @@
-import LSTM_predict_Email
-import LSTM_predict_PhoneNumber
+from utilspro import LSTM_predict_Email
+from utilspro import LSTM_predict_PhoneNumber
 
 a, b, c = LSTM_predict_Email.Email_predict("")
 
