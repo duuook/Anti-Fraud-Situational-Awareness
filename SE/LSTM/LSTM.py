@@ -11,63 +11,71 @@ def text_analysis(text):
     :param text: 待分析文本
     :return: 关键词、预测结果 (dict)
     """
-    # 获取关键词
-    size, ans = Keywords.Get_keywords(text)
-    if size == 0:
-        Get_keywords_report = {
+    try:
+        # 获取关键词
+        size, ans = Keywords.Get_keywords(text)
+        if size == 0:
+            Get_keywords_report = {
+                'status': 0,
+                'error': ans,
+            }
+
+        elif size > 0:
+            Fre = []
+            Num = []
+            keywords = []
+            for index, key in enumerate(ans):
+                keywords.append(key[0])
+                fre = len(key[0]) / len(text)
+                # fre = '{:.0%}'.format(fre)
+                Fre.append(fre)
+                Num.append(int(key[1]))
+
+            Get_keywords_report = {
+                'status': 1,
+                'Keywords': keywords,
+                'Keywords_Num': Num,
+                'Keywords_Frequency': Fre,
+            }
+
+        else:
+            Get_keywords_report = {
+                'status': 0,
+                'error': '未知错误',
+            }
+
+        # 获取预测结果
+        flag, title, probability = LSTM_predict.Text_predict(text)
+        if not flag:
+            Text_predict_report = {
+                'status': 0,
+                'error': title
+            }
+        else:
+            probability_arr = []
+            for i in probability:
+                probability_arr.append('%.3f' % i)
+            print(probability_arr)
+            Text_predict_report = {
+                'status': 1,
+                'title': int(title),
+                'probability': probability_arr,
+            }
+
+        # 返回分析报告
+        Analysis_report = {
+            'Get_keywords_report': Get_keywords_report,
+            'Text_predict_report': Text_predict_report,
+        }
+
+        return Analysis_report
+
+    except Exception as e:
+        Analysis_report = {
             'status': 0,
-            'error': ans,
+            'error': e,
         }
-
-    elif size > 0:
-        Fre = []
-        Num = []
-        keywords = []
-        for index, key in enumerate(ans):
-            keywords.append(key[0])
-            fre = len(key[0]) / len(text)
-            # fre = '{:.0%}'.format(fre)
-            Fre.append(fre)
-            Num.append(int(key[1]))
-
-        Get_keywords_report = {
-            'status': 1,
-            'Keywords': keywords,
-            'Keywords_Num': Num,
-            'Keywords_Frequency': Fre,
-        }
-
-    else:
-        Get_keywords_report = {
-            'status': 0,
-            'error': '未知错误',
-        }
-
-    # 获取预测结果
-    flag, title, probability = LSTM_predict.Text_predict(text)
-    if not flag:
-        Text_predict_report = {
-            'status': 0,
-            'error': title
-        }
-    else:
-        probability_arr = []
-        for i in probability:
-            probability_arr.append('%.3f' % i)
-        print(probability_arr)
-        Text_predict_report = {
-            'status': 1,
-            'title': int(title),
-            'probability': probability_arr,
-        }
-
-    # 返回分析报告
-    Analysis_report = {
-        'Get_keywords_report': Get_keywords_report,
-        'Text_predict_report': Text_predict_report,
-    }
-
-    return Analysis_report
+        return Analysis_report
 
 
 # 电话号码库查询
@@ -106,6 +114,11 @@ def phonenumber_query(text):
     except Exception as e:
         # 捕获所有异常，并在这里处理
         print("An error occurred:", e)
+        Query_report = {
+            'status': 0,
+            'error': e,
+        }
+        return Query_report
 
 
 # 电子邮箱库查询
@@ -142,6 +155,11 @@ def emails_query(text):
     except Exception as e:
         # 捕获所有异常，并在这里处理
         print("An error occurred:", e)
+        Query_report = {
+            'status': 0,
+            'error': e,
+        }
+        return Query_report
 
 
 # 预测电话号码是否为诈骗电话号码
@@ -151,23 +169,31 @@ def phone_number_predict(text):
     :param text: 预测电话号码
     :return: 1. 预测成功：True，预测标签，预测概率
              2. 电话号码无意义：False，提示信息，0
+             3. 未知错误：0，错误信息
     """
-    flag, label, probability = LSTM_predict_PhoneNumber.PhoneNumber_predict(text)
-    if not flag:
+    try:
+        flag, label, probability = LSTM_predict_PhoneNumber.PhoneNumber_predict(text)
+        if not flag:
+            Phone_number_predict_report = {
+                'status': 0,
+                'error': label
+            }
+            return Phone_number_predict_report
+        else:
+            probability_arr = []
+            for i in probability:
+                probability_arr.append('%.3f' % i)
+            print(probability_arr)
+            Phone_number_predict_report = {
+                'status': 1,
+                'label': int(label),
+                'probability': probability_arr,
+            }
+            return Phone_number_predict_report
+    except Exception as e:
         Phone_number_predict_report = {
             'status': 0,
-            'error': label
-        }
-        return Phone_number_predict_report
-    else:
-        probability_arr = []
-        for i in probability:
-            probability_arr.append('%.3f' % i)
-        print(probability_arr)
-        Phone_number_predict_report = {
-            'status': 1,
-            'label': int(label),
-            'probability': probability_arr,
+            'error': e
         }
         return Phone_number_predict_report
 
@@ -179,22 +205,30 @@ def email_predict(text):
     :param text: 预测电子邮箱
     :return: 1. 预测成功：True，预测标签，预测概率
              2. 电子邮箱无意义：False，提示信息，0
+             3. 未知错误：0，错误信息
     """
-    flag, label, probability = LSTM_predict_Email.Email_predict(text)
-    if not flag:
+    try:
+        flag, label, probability = LSTM_predict_Email.Email_predict(text)
+        if not flag:
+            Email_predict_report = {
+                'status': 0,
+                'error': label
+            }
+            return Email_predict_report
+        else:
+            probability_arr = []
+            for i in probability:
+                probability_arr.append('%.3f' % i)
+            print(probability_arr)
+            Email_predict_report = {
+                'status': 1,
+                'label': int(label),
+                'probability': probability_arr,
+            }
+            return Email_predict_report
+    except Exception as e:
         Email_predict_report = {
             'status': 0,
-            'error': label
-        }
-        return Email_predict_report
-    else:
-        probability_arr = []
-        for i in probability:
-            probability_arr.append('%.3f' % i)
-        print(probability_arr)
-        Email_predict_report = {
-            'status': 1,
-            'label': int(label),
-            'probability': probability_arr,
+            'error': e
         }
         return Email_predict_report
