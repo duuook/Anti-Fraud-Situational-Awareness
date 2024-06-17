@@ -71,6 +71,10 @@ def text_analysis(text):
 
 # 电话号码查询
 def phonenumber_query(text):
+    """
+    :param text: 待查询电话号码
+    :return: 查询结果 (dict)
+    """
     try:
         # 可能会引发异常的代码
         # 查询数据库中是否有电话号码与输入的电话号码相同
@@ -79,11 +83,13 @@ def phonenumber_query(text):
         # 如果没有，则返回相应提示信息
         if not phone_number:
             phonenumber_query_result = {
+                'status': 0,
                 'error': "信息库中无对应信息"
             }
         # 如果有，则返回数据库表中对应的那一行
         else:
             phonenumber_query_result = {
+                'status': 1,
                 'id': phone_number.id,
                 '电话号码': phone_number.电话号码,
                 '电话类型': phone_number.电话类型,
@@ -103,6 +109,10 @@ def phonenumber_query(text):
 
 # 电子邮箱查询
 def emails_query(text):
+    """
+    :param text: 待查询电子邮箱地址
+    :return: 查询结果 (dict)
+    """
     try:
         # 可能会引发异常的代码
         # 查询数据库中是否有电子邮箱地址与输入的电子邮箱地址相同
@@ -111,11 +121,13 @@ def emails_query(text):
         # 如果没有，则返回相应提示信息
         if not emails:
             emails_query_result = {
+                'status': 0,
                 'error': "信息库中无对应信息"
             }
         # 如果有，则返回数据库表中对应的那一行
         else:
             emails_query_result = {
+                'status': 1,
                 'id': emails.id,
                 '电子邮箱地址': emails.电子邮箱地址
             }

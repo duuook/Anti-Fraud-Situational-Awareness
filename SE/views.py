@@ -163,18 +163,16 @@ def analysis_result(request):
 
         if stype == 'phone':
             # 电话号码查询
-            phone_number = models.phone_number.objects.filter(电话号码=data)
-            context = {
-                'phone_number': phone_number,
-            }
+            context = LSTM.phonenumber_query(data)
+            if context['phonenumber_query_result']['status'] == 0:
+                return render(request, 'analysis_error.html', context)
             return render(request, 'analysis_result.html', context)
 
         if stype == 'email':
             # 邮箱查询
-            email = models.email.objects.filter(电子邮箱地址=data)
-            context = {
-                'email': email,
-            }
+            context = LSTM.emails_query(data)
+            if context['emails_query_result']['status'] == 0:
+                return render(request, 'analysis_error.html', context)
             return render(request, 'analysis_result.html', context)
 
         if stype == 'ip':
