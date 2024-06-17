@@ -1,9 +1,10 @@
-from SE.LSTM.utilspro import Keywords, LSTM_predict
+from SE.LSTM.utilspro import Keywords, LSTM_predict, LSTM_predict_Email, LSTM_predict_PhoneNumber
 from SE import models
 
 """服务函数包装"""
 
 
+# 文本分析
 def text_analysis(text):
     """
     文本分析
@@ -69,7 +70,7 @@ def text_analysis(text):
     return Analysis_report
 
 
-# 电话号码查询
+# 电话号码库查询
 def phonenumber_query(text):
     """
     :param text: 待查询电话号码
@@ -107,7 +108,7 @@ def phonenumber_query(text):
         print("An error occurred:", e)
 
 
-# 电子邮箱查询
+# 电子邮箱库查询
 def emails_query(text):
     """
     :param text: 待查询电子邮箱地址
@@ -141,3 +142,59 @@ def emails_query(text):
     except Exception as e:
         # 捕获所有异常，并在这里处理
         print("An error occurred:", e)
+
+
+# 预测电话号码是否为诈骗电话号码
+def phone_number_predict(text):
+    """
+    预测电话号码是否为诈骗电话号码
+    :param text: 预测电话号码
+    :return: 1. 预测成功：True，预测标签，预测概率
+             2. 电话号码无意义：False，提示信息，0
+    """
+    flag, label, probability = LSTM_predict_PhoneNumber.PhoneNumber_predict(text)
+    if not flag:
+        Phone_number_predict_report = {
+            'status': 0,
+            'error': label
+        }
+        return Phone_number_predict_report
+    else:
+        probability_arr = []
+        for i in probability:
+            probability_arr.append('%.3f' % i)
+        print(probability_arr)
+        Phone_number_predict_report = {
+            'status': 1,
+            'label': int(label),
+            'probability': probability_arr,
+        }
+        return Phone_number_predict_report
+
+
+# 预测电子邮箱是否为诈骗电子邮箱
+def email_predict(text):
+    """
+    预测电子邮箱是否为诈骗电子邮箱
+    :param text: 预测电子邮箱
+    :return: 1. 预测成功：True，预测标签，预测概率
+             2. 电子邮箱无意义：False，提示信息，0
+    """
+    flag, label, probability = LSTM_predict_Email.Email_predict(text)
+    if not flag:
+        Email_predict_report = {
+            'status': 0,
+            'error': label
+        }
+        return Email_predict_report
+    else:
+        probability_arr = []
+        for i in probability:
+            probability_arr.append('%.3f' % i)
+        print(probability_arr)
+        Email_predict_report = {
+            'status': 1,
+            'label': int(label),
+            'probability': probability_arr,
+        }
+        return Email_predict_report
