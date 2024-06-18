@@ -155,6 +155,7 @@
             </div>
             <div class="table" style="text-align: center">
                 <table id="ajax-output" style="margin-left: auto;margin-right: auto">
+                    {#   去掉tbody就能用了？#}
 
                 </table>
             </div>
@@ -316,8 +317,7 @@
                         console.log(error);
                     }
                 })
-            }
-            else {
+            } else {
                 // 清空表格
                 $('#ajax-output').empty();
                 // 显示开始分析按钮
