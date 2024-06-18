@@ -153,12 +153,19 @@
                     </textarea>
                 </form>
             </div>
+            <div class="table" style="text-align: center">
+                <table id="ajax-output" style="margin-left: auto;margin-right: auto">
+
+                </table>
+            </div>
+
             <div class="modal-footer">
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         关闭
                     </button>
-                    <button type="submit" class="btn btn-success" form="search-form">
+                    <button id="start_analysis-btn" type="submit"
+                            class="btn btn-success" form="search-form">
                         开始分析
                     </button>
                 </div>
@@ -204,8 +211,6 @@
     // 当前查询类型更新
     function updateType(type) {
         currentType = type;
-        $('#searchModal').modal('show');
-
     }
 
     // 提交查询数据
@@ -223,15 +228,17 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             data: {
-                action: stype,
-                value: input
+                stype: stype,
+                input: input
             },
             dataType: "JSON",
             success: function (response) {
                 // 处理服务器返回的响应
                 console.log(response);
-                // 页面跳转
-                window.location.href = '/analysis_result/?input='+input+'&stype='+stype;
+                if (stype === 'text_analysis') {
+                    // 页面跳转
+                    window.location.href = '/analysis_result/?input=' + input + '&stype=' + stype;
+                }
             },
             error: function (error) {
                 // 处理错误
@@ -270,6 +277,54 @@
 
             // 设置模态框输入框的值
             $('#navi-search').val(inputValue);
+
+            if (buttonType !== 'text_analysis') {
+                $.ajax({
+                    url: '/analysis_result/',  // 你的提交数据的 URL
+                    type: 'POST',
+                    data: {
+                        stype: buttonType,
+                        input: inputValue
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        // 处理服务器返回的响应
+                        console.log(response);
+                        $('#ajax-output').empty();
+                        for (var key in response) {
+                            if (key === 'status') {
+                                continue;
+                            }
+                            // 创建新的表格行
+                            var row = '<tr>' +
+                                '<td style="width: 30%">' + key + '</td>' +
+                                '<td style="color: red;width: 80%">' + response[key] + '</td>' +
+                                '</tr>';
+                            console.log(row, typeof (row));
+                            // 将新的表格行添加到表格中
+                            $('#ajax-output').append(row);
+                        }
+
+                        // 显示表格
+                        $('#ajax-output').show();
+
+                        // 隐藏开始分析按钮
+                        $('#start_analysis-btn').hide();
+                    },
+                    error: function (error) {
+                        // 处理错误
+                        console.log(error);
+                    }
+                })
+            }
+            else {
+                // 清空表格
+                $('#ajax-output').empty();
+                // 显示开始分析按钮
+                $('#start_analysis-btn').show();
+            }
+
+            $('#searchModal').modal('show');
         });
 
         // 绑定查询按钮点击事件
@@ -285,8 +340,9 @@
             var type = currentType;
 
             submitData();
-        })
+        });
     });
+
 
 </script>
 

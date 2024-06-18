@@ -159,41 +159,37 @@ def analysis_result(request):
                 'Get_keywords_report': analysis_report['Get_keywords_report'],
                 'Text_predict_report': analysis_report['Text_predict_report'],
             }
-            return render(request, 'analysis_result.html', context)
-
-        if stype == 'phone':
-            # 电话号码查询
-            context = LSTM.phonenumber_query(data)
-            if context['phonenumber_query_result']['status'] == 0:
-                return render(request, 'analysis_error.html', context)
-            return render(request, 'analysis_result.html', context)
-
-        if stype == 'email':
-            # 邮箱查询
-            context = LSTM.emails_query(data)
-            if context['emails_query_result']['status'] == 0:
-                return render(request, 'analysis_error.html', context)
-            return render(request, 'analysis_result.html', context)
-
-        if stype == 'ip':
-            # IP查询
-            ip = models.website.objects.filter(网站域名=data)
-            context = {
-                'ip': ip,
-            }
-            return render(request, 'analysis_result.html', context)
+            return render(request, 'text_analysis_result.html', context)
 
         # ------------------------------------------------------------------------
-        return render(request, 'analysis_result.html')
+        return render(request, 'text_analysis_result.html')
 
     if request.method == 'POST':
         # 获取前端传递的数据
-        data = request.POST
-        print(data)
-        response = {
-            'status': 200,
-            'message': '提交成功'
-        }
+        stype = request.POST.get('stype')
+        data = request.POST.get('input')
+        print(data, stype)
+        if stype == 'text_analysis':
+            response = {
+                'status': 200,
+                'message': '提交成功'
+            }
+        if stype == 'phone':
+            Query_report = LSTM.phonenumber_query(data)
+            phone_number_predict_report = LSTM.phone_number_predict(data)
+            response = Query_report['phonenumber_query_result']
+            if phone_number_predict_report['status']:
+                response['诈骗概率'] = phone_number_predict_report['probability'][1]
+        if stype == 'ip':
+            Query_report = LSTM.ip_query(data)
+            response = Query_report['ip_query_result']
+        if stype == 'email':
+            Query_report = LSTM.emails_query(data)
+            email_predict_report = LSTM.email_predict(data)
+            response = Query_report['emails_query_result']
+            if email_predict_report['status']:
+                response['诈骗概率'] = email_predict_report['probability'][1]
+        print(response)
         return HttpResponse(json.dumps(response))
 
 

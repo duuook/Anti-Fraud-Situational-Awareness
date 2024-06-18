@@ -73,7 +73,7 @@ def text_analysis(text):
     except Exception as e:
         Analysis_report = {
             'status': 0,
-            'error': e,
+            'error': str(e),
         }
         return Analysis_report
 
@@ -92,7 +92,7 @@ def phonenumber_query(text):
         # 如果没有，则返回相应提示信息
         if not phone_number:
             phonenumber_query_result = {
-                'status': 0,
+                'status': 1,
                 'error': "信息库中无对应信息"
             }
         # 如果有，则返回数据库表中对应的那一行
@@ -115,8 +115,8 @@ def phonenumber_query(text):
         # 捕获所有异常，并在这里处理
         print("An error occurred:", e)
         Query_report = {
-            'status': 0,
-            'error': e,
+            'phonenumber_query_result': {'status': 0,
+                                         'error': str(e), }
         }
         return Query_report
 
@@ -131,11 +131,11 @@ def emails_query(text):
         # 可能会引发异常的代码
         # 查询数据库中是否有电子邮箱地址与输入的电子邮箱地址相同
         # （这里用get获得的类型是可以直接用emails.id这样的方式直接获取字段）
-        emails = models.phone_number.objects.get(电子邮箱地址=text)
+        emails = models.email.objects.get(电子邮箱地址=text)
         # 如果没有，则返回相应提示信息
         if not emails:
             emails_query_result = {
-                'status': 0,
+                'status': 1,
                 'error': "信息库中无对应信息"
             }
         # 如果有，则返回数据库表中对应的那一行
@@ -156,8 +156,49 @@ def emails_query(text):
         # 捕获所有异常，并在这里处理
         print("An error occurred:", e)
         Query_report = {
-            'status': 0,
-            'error': e,
+            'emails_query_result': {'status': 0,
+                                    'error': str(e), }
+        }
+        return Query_report
+
+
+# IP地址库查询
+def ip_query(text):
+    """
+    :param text: 待查询IP地址
+    :return: 查询结果 (dict)
+    """
+    try:
+        # 可能会引发异常的代码
+        # 查询数据库中是否有IP地址与输入的IP地址相同
+        # （这里用get获得的类型是可以直接用ip.id这样的方式直接获取字段）
+        ip = models.website.objects.get(网站域名=text)
+        # 如果没有，则返回相应提示信息
+        if not ip:
+            ip_query_result = {
+                'status': 1,
+                'error': "信息库中无对应信息"
+            }
+        # 如果有，则返回数据库表中对应的那一行
+        else:
+            ip_query_result = {
+                'status': 1,
+                'id': ip.id,
+                'IP地址': ip.IP地址
+            }
+        # 将上面的结果归纳为一个查询报告
+        Query_report = {
+            'ip_query_result': ip_query_result
+        }
+        # 返回该查询报告，字典格式
+        return Query_report
+
+    except Exception as e:
+        # 捕获所有异常，并在这里处理
+        print("An error occurred:", e)
+        Query_report = {
+            'ip_query_result': {'status': 0,
+                                'error': str(e), }
         }
         return Query_report
 
@@ -193,7 +234,7 @@ def phone_number_predict(text):
     except Exception as e:
         Phone_number_predict_report = {
             'status': 0,
-            'error': e
+            'error': str(e)
         }
         return Phone_number_predict_report
 
@@ -229,6 +270,6 @@ def email_predict(text):
     except Exception as e:
         Email_predict_report = {
             'status': 0,
-            'error': e
+            'error': str(e)
         }
         return Email_predict_report
