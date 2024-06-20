@@ -51,3 +51,18 @@ class msg(models.Model):
 # 电子邮箱——电子邮箱表
 class email(models.Model):
     电子邮箱地址 = models.CharField(max_length=50)
+
+
+# 历史分析表
+class history(models.Model):
+    时间戳id = models.CharField(max_length=50, primary_key=True)
+    查询类型 = models.CharField(max_length=20)
+    查询内容 = models.CharField(max_length=255)
+    预测标签 = models.SmallIntegerField(default=None, null=True)
+    预测概率 = models.FloatField(default=None, null=True)
+    文本长度 = models.IntegerField(default=None, null=True)
+    关键词 = models.CharField(max_length=100, default=None, null=True)
+    关键词词数 = models.IntegerField(default=None, null=True)
+    词频 = models.CharField(max_length=150, default=None, null=True)
+    电话号码归属地 = models.CharField(max_length=20, default=None, null=True)
+    电话号码运营商 = models.CharField(max_length=20, default=None, null=True)
