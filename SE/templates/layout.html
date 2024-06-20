@@ -240,6 +240,23 @@
                     // 页面跳转
                     window.location.href = '/analysis_result/?input=' + input + '&stype=' + stype;
                 }
+                console.log("begin to show");
+                $('#ajax-output').hide()
+                $('#ajax-output').empty();
+                for (var key in response) {
+                    if (key === 'status') {
+                        continue;
+                    }
+                    // 创建新的表格行
+                    var row = '<tr>' +
+                        '<td style="width: 30%">' + key + '</td>' +
+                        '<td style="color: red;width: 80%">' + response[key] + '</td>' +
+                        '</tr>';
+                    console.log(row, typeof (row));
+                    // 将新的表格行添加到表格中
+                    $('#ajax-output').append(row);
+                }
+                $('#ajax-output').show();
             },
             error: function (error) {
                 // 处理错误
@@ -247,6 +264,7 @@
             }
         });
     }
+    
 
     $(document).ready(function () {
 
@@ -308,9 +326,7 @@
 
                         // 显示表格
                         $('#ajax-output').show();
-
-                        // 隐藏开始分析按钮
-                        $('#start_analysis-btn').hide();
+                        
                     },
                     error: function (error) {
                         // 处理错误
@@ -320,8 +336,6 @@
             } else {
                 // 清空表格
                 $('#ajax-output').empty();
-                // 显示开始分析按钮
-                $('#start_analysis-btn').show();
             }
 
             $('#searchModal').modal('show');

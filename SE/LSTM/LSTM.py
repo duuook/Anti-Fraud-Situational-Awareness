@@ -73,7 +73,7 @@ def text_analysis(text):
     except Exception as e:
         Analysis_report = {
             'status': 0,
-            'error': str(e),
+            'error': "诈骗信息库中未找到相应记录",
         }
         return Analysis_report
 
@@ -116,7 +116,7 @@ def phonenumber_query(text):
         print("An error occurred:", e)
         Query_report = {
             'phonenumber_query_result': {'status': 0,
-                                         'error': str(e), }
+                                         'error': "诈骗信息库中未找到相应记录", }
         }
         return Query_report
 
@@ -157,7 +157,7 @@ def emails_query(text):
         print("An error occurred:", e)
         Query_report = {
             'emails_query_result': {'status': 0,
-                                    'error': str(e), }
+                                    'error': "诈骗信息库中未找到相应记录", }
         }
         return Query_report
 
@@ -198,7 +198,7 @@ def ip_query(text):
         print("An error occurred:", e)
         Query_report = {
             'ip_query_result': {'status': 0,
-                                'error': str(e), }
+                                'error': "诈骗信息库中未找到相应记录", }
         }
         return Query_report
 
@@ -234,7 +234,7 @@ def phone_number_predict(text):
     except Exception as e:
         Phone_number_predict_report = {
             'status': 0,
-            'error': str(e)
+            'error': "诈骗信息库中未找到相应记录"
         }
         return Phone_number_predict_report
 
@@ -270,6 +270,6 @@ def email_predict(text):
     except Exception as e:
         Email_predict_report = {
             'status': 0,
-            'error': str(e)
+            'error': "诈骗信息库中未找到相应记录"
         }
         return Email_predict_report
