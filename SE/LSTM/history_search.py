@@ -40,11 +40,22 @@ def history_append(stype,text,Analysis_report):
                 )
 
         elif stype=='phone':
-            models.history.objects.create(
-                时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
-                查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
-                查询内容=text
-            )
+            if Analysis_report['省份'] and Analysis_report['城市']:
+                models.history.objects.create(
+                    时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
+                    查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
+                    查询内容=text,
+                    电话号码归属地=Analysis_report['省份']+Analysis_report['城市'],
+                    电话号码运营商=Analysis_report['运营商']
+                )
+            # 有些号码归属地为null，即变量为None，不为字符串类型，直接不添加
+            else:
+                models.history.objects.create(
+                    时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
+                    查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
+                    查询内容=text,
+                    电话号码运营商=Analysis_report['运营商']
+                )
         elif stype=='ip':
             models.history.objects.create(
                 时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数

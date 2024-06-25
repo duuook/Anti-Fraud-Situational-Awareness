@@ -69,6 +69,7 @@ def text_analysis(text):
             'Text_predict_report': Text_predict_report,
         }
 
+        # 文本分析的历史记录追加到表中
         history_append(stype='text_analysis', text=text, Analysis_report=Analysis_report)
 
         return Analysis_report
@@ -141,6 +142,10 @@ def phone_number_location(text):
                 'status': 0,
                 'error': "归属地查询失败"
             }
+
+            # 电话号码查询的历史记录追加到表中
+            history_append(stype='phone', text=text, Analysis_report=Query_report)
+
             return Query_report
         print(location_result)
         Query_report = {
@@ -151,6 +156,10 @@ def phone_number_location(text):
             '区号': location_result['areacode'],
         }
         print(Query_report)
+
+        # 电话号码查询的历史记录追加到表中
+        history_append(stype='phone', text=text, Analysis_report=Query_report)
+
         return Query_report
     except Exception as e:
         print("An error occurred:", e)
