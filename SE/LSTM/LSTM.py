@@ -1,3 +1,4 @@
+from SE.LSTM.history_search import history_append
 from SE.LSTM.utilspro import Keywords, LSTM_predict, LSTM_predict_Email, LSTM_predict_PhoneNumber, spider
 from SE import models
 
@@ -67,6 +68,8 @@ def text_analysis(text):
             'Get_keywords_report': Get_keywords_report,
             'Text_predict_report': Text_predict_report,
         }
+
+        history_append(stype='text_analysis', text=text, Analysis_report=Analysis_report)
 
         return Analysis_report
 
