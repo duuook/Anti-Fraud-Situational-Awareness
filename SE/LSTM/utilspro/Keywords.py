@@ -27,7 +27,7 @@ def Drop_stopwords(contents):
     """
 
     # 读取停用词表
-    stopwords = pd.read_csv('data/Stopwords.csv')
+    stopwords = pd.read_csv('LSTM_data/Stopwords.csv')
 
     # 将停用词表转换为列表
     stopwords = stopwords['Stopwords'].tolist()

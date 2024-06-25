@@ -8,19 +8,21 @@ import pandas as pd
 import tensorflow as tf
 import random
 from gensim.models import KeyedVectors
+from spider import get_txet_and_url
+from spider.get_txet_and_url import start_crawl, process_file
 
 # 读取Word2Vec词向量模型，并转为list类型
-wv_to_bin = 'LSTM_data/Tencent_AILab_ChineseEmbedding.bin'
+wv_to_bin = '../data/Tencent_AILab_ChineseEmbedding.bin'
 wv_from_text = KeyedVectors.load(wv_to_bin, mmap='r')
 wordList = list(wv_from_text.key_to_index.keys())
 wordVectors = wv_from_text.vectors
 
 # 加载LSTM模型
-lstm_model = 'LSTM_keras_model/LSTM_model_PhoneNumber.keras'
+lstm_model = '../keras_model/LSTM_model.keras'
 model = keras.models.load_model(lstm_model)
 
 # 定义句子编码长度和映射向量长度
-max_len = 30  # 句子编码长度
+max_len = 200  # 句子编码长度
 numDimensions = 200  # 映射向量长度
 
 
@@ -43,28 +45,32 @@ def Word2Vec_encode(word_list, contents):
     return word_index
 
 
-def add_space_if_needed(text):
-    new_text = ""
-    for i in range(len(text)):
-        new_text += text[i]
-        if i < len(text) - 1 and text[i + 1] != ' ':
-            new_text += ' '
-    return new_text
-
-
-def PhoneNumber_predict(text):
+def Clean_text(text):
     """
-    预测文本是否为诈骗邮件
-    :param text: 预测邮件
+    去掉文本中的标点符号、制表符和换行符，但保留中文字符、字母数字字符
+    :param text: 输入文本
+    :return: 干净文本
+    """
+    cleaned_text = re.sub(r'[^\w\s\u4e00-\u9fff]', '', text)  # 保留中文字符、字母、数字和空格
+    cleaned_text = re.sub(r'[\t\n\r]', '', cleaned_text)  # 移除制表符、换行符和回车符
+    cleaned_text = re.sub(r'\s+', '', cleaned_text)  # 去掉所有空格
+
+    return cleaned_text
+
+
+def Text_predict(text):
+    """
+    预测文本是否为诈骗文本
+    :param text: 预测文本
     :return: 1. 预测成功：True，预测标签，预测概率
              2. 文本无意义：False，提示信息，0
     """
-    # 文本添加空格
-    text = add_space_if_needed(text)
+    # 清洗文本
+    text = Clean_text(text)
     # 使用jieba分词器进行分词
     text = jieba.lcut(text)
     if len(text) == 0:
-        warning = "输入号码无效，请提供有意义的数据！"
+        warning = "输入文本无效，请提供有意义的数据！"
         return False, warning, 0
 
     # 将文本编码为Word2Vec索引
@@ -72,7 +78,7 @@ def PhoneNumber_predict(text):
     # 查找文本向量
     text_vector = tf.nn.embedding_lookup(wordVectors, text_index)
     # 扩展维度以匹配模型输入
-    text_vector_expanded = np.expand_dims(text_vector, axis=0)  # (1,100,200)
+    text_vector_expanded = np.expand_dims(text_vector, axis=0)  # (1,70,200)
 
     # 进行预测
     prediction = model.predict(text_vector_expanded, verbose=0)
@@ -80,6 +86,10 @@ def PhoneNumber_predict(text):
     predict = np.argmax(prediction)
     l2 = random.uniform(0, 0.1)
     prediction[0][predict] -= l2
-    prediction[0][1 - predict] += l2
+    prediction[0][1-predict] += l2
     prediction = np.round(prediction[0], 3).tolist()
     return True, predict, prediction
+
+
+
+

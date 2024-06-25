@@ -11,13 +11,13 @@ import random
 from gensim.models import KeyedVectors
 
 # 读取Word2Vec词向量模型，并转为list类型
-wv_to_bin = 'data/Tencent_AILab_ChineseEmbedding.bin'
+wv_to_bin = 'LSTM_data/Tencent_AILab_ChineseEmbedding.bin'
 wv_from_text = KeyedVectors.load(wv_to_bin, mmap='r')
 wordList = list(wv_from_text.key_to_index.keys())
 wordVectors = wv_from_text.vectors
 
 # 加载LSTM模型
-lstm_model = 'keras_model/LSTM_model.keras'
+lstm_model = 'LSTM_keras_model/LSTM_model.keras'
 model = keras.models.load_model(lstm_model)
 
 # 定义句子编码长度和映射向量长度
