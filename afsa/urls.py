@@ -33,4 +33,7 @@ urlpatterns = [
 
     # ajax提交测试
     path('ajax/', views.ajax),
+
+    # 历史分析查询页面
+    path('history/', views.history),
 ]

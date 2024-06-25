@@ -204,3 +204,19 @@ def ajax(request):
         'message': '提交成功'
     }
     return HttpResponse(json.dumps(response))
+
+
+def history(request):
+    """历史分析查询页面"""
+    if request.method == 'GET':
+        # 获取数据库总条数以及筛选后的数据
+        history_data = models.history.objects.all()
+
+        # 分页设计:
+        page_object = Pagination(request, filter_ip_content=history_data, plus=10, method=request.method)
+
+        # 传递数据字典
+        context = {'history_data': page_object.filter_ip_content, 'page_str': page_object.html(),
+                   'total_page': page_object.total_page, 'current_page': page_object.page}
+        return render(request, 'history.html', context)
+    return None
