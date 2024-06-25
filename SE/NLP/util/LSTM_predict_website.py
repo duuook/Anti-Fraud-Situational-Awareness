@@ -8,17 +8,17 @@ import pandas as pd
 import tensorflow as tf
 import random
 from gensim.models import KeyedVectors
-from spider import get_txet_and_url
-from spider.get_txet_and_url import start_crawl, process_file
+from SE.NLP.spider import get_txet_and_url
+from SE.NLP.spider.get_txet_and_url import start_crawl, process_file
 
 # 读取Word2Vec词向量模型，并转为list类型
-wv_to_bin = '../data/Tencent_AILab_ChineseEmbedding.bin'
+wv_to_bin = 'NLP_data/Tencent_AILab_ChineseEmbedding.bin'
 wv_from_text = KeyedVectors.load(wv_to_bin, mmap='r')
 wordList = list(wv_from_text.key_to_index.keys())
 wordVectors = wv_from_text.vectors
 
 # 加载LSTM模型
-lstm_model = '../keras_model/LSTM_model.keras'
+lstm_model = 'NLP_keras_model/LSTM_model.keras'
 model = keras.models.load_model(lstm_model)
 
 # 定义句子编码长度和映射向量长度

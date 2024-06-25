@@ -1,5 +1,6 @@
 import json
 from SE.LSTM import LSTM
+from SE.NLP.func import NLP
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from SE.utils.db_modelform import *  # 这里的前驱路径需要完整打出
@@ -160,8 +161,9 @@ def analysis_result(request):
                 'Text_predict_report': analysis_report['Text_predict_report'],
             }
             return render(request, 'text_analysis_result.html', context)
-
-        # ------------------------------------------------------------------------
+        if stype == 'ip':
+            # 网页分析
+            ip_analysis_report = NLP.websit_analysis(data)
         return render(request, 'text_analysis_result.html')
 
     if request.method == 'POST':
