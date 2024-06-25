@@ -129,6 +129,6 @@ class Pagination(object):
 
         page_str = mark_safe(''.join(page_str_list))
 
-        print("end of html()"+page_str)
+        # print("end of html()"+page_str)
 
         return page_str
