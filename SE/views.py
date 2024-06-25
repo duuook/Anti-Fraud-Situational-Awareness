@@ -176,19 +176,22 @@ def analysis_result(request):
             }
         if stype == 'phone':
             Query_report = LSTM.phonenumber_query(data)
-            phone_number_predict_report = LSTM.phone_number_predict(data)
             response = Query_report['phonenumber_query_result']
-            if phone_number_predict_report['status']:
-                response['诈骗概率'] = phone_number_predict_report['probability'][1]
+
+            location_report = LSTM.phone_number_location(data)
+            if location_report['status']:
+                response['省份'] = location_report['省份']
+                response['城市'] = location_report['城市']
+                response['运营商'] = location_report['运营商']
+                response['区号'] = location_report['区号']
+
         if stype == 'ip':
             Query_report = LSTM.ip_query(data)
             response = Query_report['ip_query_result']
         if stype == 'email':
             Query_report = LSTM.emails_query(data)
-            email_predict_report = LSTM.email_predict(data)
             response = Query_report['emails_query_result']
-            if email_predict_report['status']:
-                response['诈骗概率'] = email_predict_report['probability'][1]
+
         print(response)
         return HttpResponse(json.dumps(response))
 

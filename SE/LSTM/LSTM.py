@@ -1,4 +1,4 @@
-from SE.LSTM.utilspro import Keywords, LSTM_predict, LSTM_predict_Email, LSTM_predict_PhoneNumber,spider
+from SE.LSTM.utilspro import Keywords, LSTM_predict, LSTM_predict_Email, LSTM_predict_PhoneNumber, spider
 from SE import models
 
 """服务函数包装"""
@@ -117,6 +117,43 @@ def phonenumber_query(text):
         Query_report = {
             'phonenumber_query_result': {'status': 0,
                                          'error': "诈骗信息库中未找到相应记录", }
+        }
+        return Query_report
+
+
+# 电话号码归属地查询
+def phone_number_location(text):
+    """
+    电话号码归属地查询
+    :param text: 待查询电话号码
+    :return: 查询结果 (dict)
+            'data': {'phone': '15728484768', 'province': '广东', 'city': '河源', 'isp': '中国移动', 'areacode': '0762'}}
+    """
+    try:
+        # 可能会引发异常的代码
+        # 通过网页自动脚本查询电话号码归属地
+        location_result = spider.phone_number_spider(phone=text)
+        if location_result['code'] == 0:
+            Query_report = {
+                'status': 0,
+                'error': "归属地查询失败"
+            }
+            return Query_report
+        print(location_result)
+        Query_report = {
+            'status': 1,
+            '省份': location_result['province'],
+            '城市': location_result['city'],
+            '运营商': location_result['isp'],
+            '区号': location_result['areacode'],
+        }
+        print(Query_report)
+        return Query_report
+    except Exception as e:
+        print("An error occurred:", e)
+        Query_report = {
+            'status': 0,
+            'error': "归属地查询失败"
         }
         return Query_report
 
