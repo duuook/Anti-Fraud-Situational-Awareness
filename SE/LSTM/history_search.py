@@ -16,7 +16,7 @@ def history_append(stype,text,Analysis_report):
         # 将整型的北京时间转换为字符串并进行去除杠号、空格和冒号的处理,并只截取到秒的部分，毫秒和时区都不需要
         beijing_time = str(beijing_time).replace("-","").replace(" ","").replace(":","")[0:14]
 
-        # 生成一个0-1000的随机整数
+        # 生成一个001-999的三位随机整数
         rand_int = random.randint(1, 999)
 
         # 往历史分析表中添加记录，分四种类型情况讨论
