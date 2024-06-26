@@ -14,14 +14,14 @@
                     <form method="get">
                         <div class="col-md-3" style="width: 300px">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">域名搜索</span>
-                                <input type="text" name="sip" class="form-control"
+                                <span class="input-group-addon" id="basic-addon1">查询内容搜索</span>
+                                <input type="text" name="scontent" class="form-control"
                                        value="{{ filter_condition }}" placeholder="Search for...">
                             </div>
                         </div>
                         <div class="col-md-3" style="width: 300px">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">诈骗类型</span>
+                                <span class="input-group-addon" id="basic-addon1">查询类型</span>
                                 <select name="stype" class="form-control">
                                     {% for item in type_choices %}
                                         <option value="{{ item.0 }}">{{ item.1 }}</option>
@@ -48,20 +48,22 @@
 
                 <!-- Table -->
                 <div class="scroll-list-table">
-                    <table id="fraud-phone-number-table" class="table">
+                    <table id="history-table" class="table">
                         <thead>
                         <tr>
                             <th class="loose-bold-font" style="text-align: center">ID</th>
-                            <th class="loose-bold-font" style="text-align: center">网站域名</th>
-                            <th class="loose-bold-font" style="text-align: center">诈骗类型</th>
+                            <th class="loose-bold-font" style="text-align: center">查询类型</th>
+                            <th class="loose-bold-font" style="text-align: center">查询内容</th>
+                            <th class="loose-bold-font" style="text-align: center">预测标签</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for web in websites %}
+                        {% for his in history_data %}
                             <tr>
-                                <td style="text-align: center">{{ web.id }}</td>
-                                <td style="text-align: center">{{ web.网站域名 }}</td>
-                                <td style="text-align: center">{{ web.get_诈骗类型_display }}</td>
+                                <td style="text-align: center">{{ his.时间戳id }}</td>
+                                <td style="text-align: center">{{ his.查询类型 }}</td>
+                                <td style="text-align: center">{{ his.查询内容 }}</td>
+                                <td style="text-align: center">{{ his.预测标签 }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

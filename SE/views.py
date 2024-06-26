@@ -243,14 +243,29 @@ def ajax(request):
 def history(request):
     """历史分析查询页面"""
     if request.method == 'GET':
-        # 获取数据库总条数以及筛选后的数据
-        history_data = models.history.objects.all()
+        # 筛选条例
+        type_choices = (
+            (0, '无'),
+            ('text_analysis', '文本分析'),
+            ('phone', '电话号码查询'),
+            ('ip', 'IP地址查询'),
+            ('email', '邮箱查询'),
+        )
+        filter_type_condition = request.GET.get('stype', '')
+        filter_content_condition = request.GET.get('scontent', '')
+
+        if filter_type_condition != '' and filter_type_condition != '0':
+            history_data = models.history.objects.filter(查询类型=filter_type_condition,
+                                                         查询内容__contains=filter_content_condition)
+        else:
+            history_data = models.history.objects.filter(查询内容__contains=filter_content_condition)
 
         # 分页设计:
         page_object = Pagination(request, filter_ip_content=history_data, plus=10, method=request.method)
 
         # 传递数据字典
         context = {'history_data': page_object.filter_ip_content, 'page_str': page_object.html(),
-                   'total_page': page_object.total_page, 'current_page': page_object.page}
+                   'total_page': page_object.total_page, 'current_page': page_object.page,
+                   'type_choices': type_choices}
         return render(request, 'history.html', context)
     return None

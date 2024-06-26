@@ -150,6 +150,21 @@ thead th {
     width: 20%; /* 第四列的宽度 */
 }
 
+#history-table th:nth-child(1) {
+    width: 20%; /* 第一列的宽度 */
+}
+
+#history-table th:nth-child(2) {
+    width: 10%; /* 第二列的宽度 */
+}
+
+#history-table th:nth-child(3) {
+    width: 20%; /* 第三列的宽度 */
+}
+
+#history-table th:nth-child(4) {
+    width: 20%; /* 第四列的宽度 */
+}
 /*-----------------------巨幕组件-----------------------*/
 .jumbotron {
     background-color: rgba(255, 255, 255, 0); /* 白色半透明 */
