@@ -190,6 +190,7 @@ def analysis_result(request):
             else:
                 context = {
                     "error": ip_analysis_report['error'],
+                    "detail": ip_analysis_report['detail']
                 }
                 return render(request, 'analysis_error.html', context)
         return render(request, 'text_analysis_result.html')

@@ -20,22 +20,22 @@ def websit_analysis(url):
         # 将爬取到的网站文本转变为字符串进行预测
         # 示例用法
         cleaned_text = process_file(output_file)
-        print(cleaned_text)
 
         # ---------------------------网页预测-------------------------------------
         # 使用处理的字符串进行预测
         flag, predict, prediction = Text_predict(cleaned_text)
+        print(flag, predict, prediction)
         if flag:
-            prediction = []
+            sub_prediction = []
             if predict:
                 print('该网站有可能是诈骗网站')
             print(f'预测结果：\n非诈骗网站的概率：{prediction[0]:.3f}  诈骗网站的概率：{prediction[1]:.3f}')
-            prediction.append('prediction[0]:.3f')
-            prediction.append('prediction[1]:.3f')
+            sub_prediction.append(f'{prediction[0]:.3f}')
+            sub_prediction.append(f'{prediction[1]:.3f}')
             website_predict_report = {
                 'status': 1,
-                'predict': predict,
-                'prediction': prediction
+                'predict': int(predict),
+                'prediction': sub_prediction
             }
         else:
             website_predict_report = {
@@ -79,10 +79,13 @@ def websit_analysis(url):
             'website_predict_report': website_predict_report,
             'Get_keywords_report': Get_keywords_report,
         }
+
+        print(website_analysis_report)
         return website_analysis_report
     except Exception as e:
         website_analysis_report = {
             'status': 0,
             'error': "模型分析进程错误",
+            'detail': e
         }
         return website_analysis_report
