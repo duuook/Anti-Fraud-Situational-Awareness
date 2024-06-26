@@ -61,7 +61,6 @@ def fraud_phone_number_list(request):
         page_object = Pagination(request, filter_ip_content=phone_numbers, plus=10, method=request.method)
 
         # 传递数据字典
-        print(page_object.filter_ip_content)
         context = {'phone_numbers': page_object.filter_ip_content, 'filter_condition': filter_phone_condition,
                    'type_choices': type_choices, 'page_str': page_object.html(), 'total_page': page_object.total_page,
                    'current_page': page_object.page}
@@ -265,7 +264,6 @@ def history(request):
         page_object = Pagination(request, filter_ip_content=history_data, plus=10, method=request.method)
 
         # 传递数据字典
-        print(page_object.filter_ip_content)
         context = {'history_data': page_object.filter_ip_content, 'page_str': page_object.html(),
                    'total_page': page_object.total_page, 'current_page': page_object.page,
                    'type_choices': type_choices}
