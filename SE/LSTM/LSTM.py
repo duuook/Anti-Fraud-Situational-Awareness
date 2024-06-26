@@ -237,7 +237,7 @@ def ip_query(text):
             ip_query_result = {
                 'status': 1,
                 'id': ip.id,
-                'IP地址': ip.IP地址
+                'IP地址': ip.网站域名
             }
         # 将上面的结果归纳为一个查询报告
         Query_report = {
