@@ -251,9 +251,14 @@
                     if (key === 'status') {
                         continue;
                     }
+                    var sub_key = key
+                    if (key === 'error'){
+                        sub_key = '信息库查询结果'
+                    }
+                    console.log(sub_key);
                     // 创建新的表格行
                     var row = '<tr>' +
-                        '<td style="width: 30%">' + key + '</td>' +
+                        '<td style="width: 30%">' + sub_key + '</td>' +
                         '<td style="color: red;width: 80%">' + response[key] + '</td>' +
                         '</tr>';
                     console.log(row, typeof (row));
@@ -300,7 +305,11 @@
 
             // 设置模态框输入框的值
             $('#navi-search').val(inputValue);
-
+            
+            if (inputValue === '') {
+                alert('请输入查询内容');
+                return;
+            }
             if (buttonType !== 'text_analysis') {
                 $.ajax({
                     url: '/analysis_result/',  // 你的提交数据的 URL
