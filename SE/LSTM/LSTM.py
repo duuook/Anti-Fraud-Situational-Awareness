@@ -199,6 +199,9 @@ def emails_query(text):
         Query_report = {
             'emails_query_result': emails_query_result
         }
+
+        history_append(stype='email',text=text,Analysis_report=Query_report)
+
         # 返回该查询报告，字典格式
         return Query_report
 
