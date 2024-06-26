@@ -24,7 +24,6 @@ def websit_analysis(url):
         # ---------------------------网页预测-------------------------------------
         # 使用处理的字符串进行预测
         flag, predict, prediction = Text_predict(cleaned_text)
-        print(flag, predict, prediction)
         if flag:
             sub_prediction = []
             if predict:
