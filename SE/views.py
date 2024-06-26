@@ -146,24 +146,52 @@ def analysis_result(request):
             # 文本分析
             analysis_report = LSTM.text_analysis(data)
             # 错误处理
-            if analysis_report['Get_keywords_report']['status'] == 0:
+            if analysis_report['status']:
+                if analysis_report['Get_keywords_report']['status'] == 0:
+                    context = {
+                        "error": analysis_report['Get_keywords_report']['error'],
+                    }
+                    return render(request, 'analysis_error.html', context)
+                elif analysis_report['Text_predict_report']['status'] == 0:
+                    context = {
+                        "error": analysis_report['Text_predict_report']['error'],
+                    }
+                    return render(request, 'analysis_error.html', context)
                 context = {
-                    "error": analysis_report['Get_keywords_report']['error'],
+                    'Get_keywords_report': analysis_report['Get_keywords_report'],
+                    'Text_predict_report': analysis_report['Text_predict_report'],
+                }
+                return render(request, 'text_analysis_result.html', context)
+            else:
+                context = {
+                    "error": analysis_report['error'],
                 }
                 return render(request, 'analysis_error.html', context)
-            elif analysis_report['Text_predict_report']['status'] == 0:
-                context = {
-                    "error": analysis_report['Text_predict_report']['error'],
-                }
-                return render(request, 'analysis_error.html', context)
-            context = {
-                'Get_keywords_report': analysis_report['Get_keywords_report'],
-                'Text_predict_report': analysis_report['Text_predict_report'],
-            }
-            return render(request, 'text_analysis_result.html', context)
+
         if stype == 'ip':
             # 网页分析
             ip_analysis_report = NLP.websit_analysis(data)
+            if ip_analysis_report['status']:
+                if ip_analysis_report['Get_keywords_report']['status'] == 0:
+                    context = {
+                        "error": ip_analysis_report['Get_keywords_report']['error'],
+                    }
+                    return render(request, 'analysis_error.html', context)
+                elif ip_analysis_report['website_predict_report']['status'] == 0:
+                    context = {
+                        "error": ip_analysis_report['website_predict_report']['error'],
+                    }
+                    return render(request, 'analysis_error.html', context)
+                context = {
+                    'Get_keywords_report': ip_analysis_report['Get_keywords_report'],
+                    'website_predict_report': ip_analysis_report['website_predict_report'],
+                }
+                return render(request, 'ip_analysis_result.html', context)
+            else:
+                context = {
+                    "error": ip_analysis_report['error'],
+                }
+                return render(request, 'analysis_error.html', context)
         return render(request, 'text_analysis_result.html')
 
     if request.method == 'POST':

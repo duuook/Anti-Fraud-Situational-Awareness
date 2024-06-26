@@ -65,6 +65,7 @@ def text_analysis(text):
 
         # 返回分析报告
         Analysis_report = {
+            'status': 1,
             'Get_keywords_report': Get_keywords_report,
             'Text_predict_report': Text_predict_report,
         }

@@ -3,19 +3,19 @@
 
 {% block title %}
     <title>
-        文本分析报告
+        网页分析报告
     </title>
 {% endblock %}
 
 {% block content %}
     <!-- 将后端传来的字典转化为json -->
     {{ Get_keywords_report|json_script:"Get_keywords_report_json" }}
-    {{ Text_predict_report|json_script:"Text_predict_report_json" }}
+    {{ website_predict_report|json_script:"website_predict_report_json" }}
 
     <div class="jumbotron container">
         <p style="margin-left: 100px">您输入的内容为诈骗的概率为</p>
         <div class="flex-container" style="margin-left: 250px">
-            <h1 style="color: red">{{ Text_predict_report.probability.1 }}</h1>
+            <h1 style="color: red">{{ website_predict_report.prediction.1 }}</h1>
             <button class="btn" id="border-btn" style="font-weight: bold;margin-left: 25%;font-size:25px ">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="margin-right: 10px"></span>
                 查 看 详 情
@@ -120,8 +120,8 @@
             var my_json = JSON.parse(document.getElementById(element_name).textContent);
             console.log(my_json);
             var data = [];
-            data.push({name: '非诈骗', value: my_json['probability'][0]});
-            data.push({name: '诈骗', value: my_json['probability'][1]});
+            data.push({name: '非诈骗', value: my_json['prediction'][0]});
+            data.push({name: '诈骗', value: my_json['prediction'][1]});
             return data;
         }
 
@@ -148,7 +148,7 @@
                     name: 'Access From',
                     type: 'pie',
                     radius: '50%',
-                    data: Get_pie_series_data('Text_predict_report_json'),
+                    data: Get_pie_series_data('website_predict_report_json'),
                     emphasis: {
                         itemStyle: {
                             shadowBlur: 10,
