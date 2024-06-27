@@ -229,14 +229,8 @@ def analysis_result(request):
                     response['区号'] = location_report['区号']
 
         elif stype == 'ip':
-            if not validation.is_valid_url(data):
-                response = {
-                    'status': 400,
-                    'message': 'IP地址格式错误，请重新输入'
-                }
-            else:
-                Query_report = LSTM.ip_query(data)
-                response = Query_report['ip_query_result']
+            Query_report = LSTM.ip_query(data)
+            response = Query_report['ip_query_result']
         elif stype == 'email':
             if not validation.is_valid_email(data):
                 response = {
