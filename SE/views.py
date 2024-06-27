@@ -1,5 +1,5 @@
 import json
-from SE.LSTM import LSTM
+from SE.LSTM import LSTM, history_search
 from SE.NLP.func import NLP
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -186,12 +186,14 @@ def analysis_result(request):
                     'Get_keywords_report': ip_analysis_report['Get_keywords_report'],
                     'website_predict_report': ip_analysis_report['website_predict_report'],
                 }
+                history_search.history_append(stype='ip',text=data,Analysis_report=ip_analysis_report)
                 return render(request, 'ip_analysis_result.html', context)
             else:
                 context = {
                     "error": ip_analysis_report['error'],
                     "detail": ip_analysis_report['detail']
                 }
+                history_search.history_append(stype='ip', text=data, Analysis_report=ip_analysis_report)
                 return render(request, 'analysis_error.html', context)
         return render(request, 'text_analysis_result.html')
 

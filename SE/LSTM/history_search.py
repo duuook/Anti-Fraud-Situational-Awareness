@@ -57,11 +57,24 @@ def history_append(stype,text,Analysis_report):
                     电话号码运营商=Analysis_report['运营商']
                 )
         elif stype=='ip':
-            models.history.objects.create(
-                时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
-                查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
-                查询内容=text
-            )
+            if Analysis_report['website_predict_report']['status'] and Analysis_report['Get_keywords_report']['status']:
+                models.history.objects.create(
+                    时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
+                    查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
+                    查询内容=text,
+                    预测标签=Analysis_report['website_predict_report']['predict'],
+                    预测概率=Analysis_report['website_predict_report']['prediction'][1],
+                    文本长度=len(text),
+                    # 网页分析的关键词过多了，varchar(800)容量都不够用，所以不放关键词和词数了
+                    # 关键词=str(Analysis_report['Get_keywords_report']['Keywords']),
+                    # 关键词词数=str(Analysis_report['Get_keywords_report']['Keywords_Num'])
+                )
+            else:
+                models.history.objects.create(
+                    时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
+                    查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
+                    查询内容=text
+                )
         elif stype=='email':
             models.history.objects.create(
                 时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
