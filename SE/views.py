@@ -187,14 +187,15 @@ def analysis_result(request):
                     'Get_keywords_report': ip_analysis_report['Get_keywords_report'],
                     'website_predict_report': ip_analysis_report['website_predict_report'],
                 }
-                history_search.history_append(stype='ip',text=data,Analysis_report=ip_analysis_report)
+                # 增加ip分析结果的历史分析表追加
+                history_search.history_append(stype = 'ip',text = data,Analysis_report = ip_analysis_report)
                 return render(request, 'ip_analysis_result.html', context)
             else:
                 context = {
                     "error": ip_analysis_report['error'],
                     "detail": ip_analysis_report['detail']
                 }
-                history_search.history_append(stype='ip', text=data, Analysis_report=ip_analysis_report)
+                history_search.history_append(stype = 'ip', text = data, Analysis_report = ip_analysis_report)
                 return render(request, 'analysis_error.html', context)
         return render(request, 'text_analysis_result.html')
 

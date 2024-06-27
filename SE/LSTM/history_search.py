@@ -73,7 +73,7 @@ def history_append(stype,text,Analysis_report):
                 models.history.objects.create(
                     时间戳id=f"{beijing_time}{rand_int:03d}",  # 时间戳id：北京时间+随机数
                     查询类型=stype,  # 将views.py中的stype当作参数传入进来判断查询/分析的类型
-                    查询内容=text
+                    查询内容=text,
                 )
         elif stype=='email':
             models.history.objects.create(
