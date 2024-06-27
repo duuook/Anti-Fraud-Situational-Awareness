@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from SE.utils.db_modelform import *  # 这里的前驱路径需要完整打出
 from SE.utils.pagination import Pagination
+from SE.utils import validation
 
 
 # Create your views here.
@@ -207,23 +208,41 @@ def analysis_result(request):
                 'status': 200,
                 'message': '提交成功'
             }
-        if stype == 'phone':
-            Query_report = LSTM.phonenumber_query(data)
-            response = Query_report['phonenumber_query_result']
+        elif stype == 'phone':
+            if not validation.is_all_digits(data):
+                response = {
+                    'status': 400,
+                    'message': '电话号码格式错误,请重新输入'
+                }
+            else:
+                Query_report = LSTM.phonenumber_query(data)
+                response = Query_report['phonenumber_query_result']
 
-            location_report = LSTM.phone_number_location(data)
-            if location_report['status']:
-                response['省份'] = location_report['省份']
-                response['城市'] = location_report['城市']
-                response['运营商'] = location_report['运营商']
-                response['区号'] = location_report['区号']
+                location_report = LSTM.phone_number_location(data)
+                if location_report['status']:
+                    response['省份'] = location_report['省份']
+                    response['城市'] = location_report['城市']
+                    response['运营商'] = location_report['运营商']
+                    response['区号'] = location_report['区号']
 
-        if stype == 'ip':
-            Query_report = LSTM.ip_query(data)
-            response = Query_report['ip_query_result']
-        if stype == 'email':
-            Query_report = LSTM.emails_query(data)
-            response = Query_report['emails_query_result']
+        elif stype == 'ip':
+            if not validation.is_valid_url(data):
+                response = {
+                    'status': 400,
+                    'message': 'IP地址格式错误，请重新输入'
+                }
+            else:
+                Query_report = LSTM.ip_query(data)
+                response = Query_report['ip_query_result']
+        elif stype == 'email':
+            if not validation.is_valid_email(data):
+                response = {
+                    'status': 400,
+                    'message': '邮箱号格式错误，请重新输入'
+                }
+            else:
+                Query_report = LSTM.emails_query(data)
+                response = Query_report['emails_query_result']
 
         print(response)
         return HttpResponse(json.dumps(response))
