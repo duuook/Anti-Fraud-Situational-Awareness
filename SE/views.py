@@ -161,6 +161,7 @@ def analysis_result(request):
                 context = {
                     'Get_keywords_report': analysis_report['Get_keywords_report'],
                     'Text_predict_report': analysis_report['Text_predict_report'],
+                    'origin_data': data,
                 }
                 return render(request, 'text_analysis_result.html', context)
             else:
@@ -186,6 +187,7 @@ def analysis_result(request):
                 context = {
                     'Get_keywords_report': ip_analysis_report['Get_keywords_report'],
                     'website_predict_report': ip_analysis_report['website_predict_report'],
+                    'origin_data': data,
                 }
                 # 增加ip分析结果的历史分析表追加
                 history_search.history_append(stype = 'ip',text = data,Analysis_report = ip_analysis_report)
@@ -278,9 +280,9 @@ def history(request):
 
         if filter_type_condition != '' and filter_type_condition != '0':
             history_data = models.history.objects.filter(查询类型=filter_type_condition,
-                                                         查询内容__contains=filter_content_condition)
+                                                         查询内容__contains=filter_content_condition).order_by('-时间戳id')
         else:
-            history_data = models.history.objects.filter(查询内容__contains=filter_content_condition)
+            history_data = models.history.objects.filter(查询内容__contains=filter_content_condition).order_by('-时间戳id')
 
         # 分页设计:
         page_object = Pagination(request, filter_ip_content=history_data, plus=10, method=request.method)
