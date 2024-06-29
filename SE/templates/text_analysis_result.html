@@ -15,7 +15,7 @@
     <div class="jumbotron container">
         <p style="margin-left: 100px">您输入的内容为诈骗的概率为</p>
         <div class="flex-container" style="margin-left: 250px">
-            <h1 style="color: red">{{ Text_predict_report.probability.1 }}</h1>
+            <h1 style="color: red">{{ Text_predict_report.probability_percent.1 }}</h1>
             <button class="btn" id="border-btn" style="font-weight: bold;margin-left: 25%;font-size:25px ">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true" style="margin-right: 10px"></span>
                 查 看 详 情
@@ -53,22 +53,39 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                              data-toggle="tab">原文</a>
+                                                              data-toggle="tab">原 文</a>
                     </li>
-                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                               data-toggle="tab">关键词</a>
                     </li>
-                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
-                                               data-toggle="tab">Messages</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
-                                               data-toggle="tab">Settings</a></li>
+                    {#                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"#}
+                    {#                                               data-toggle="tab">Messages</a></li>#}
+                    {#                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"#}
+                    {#                                               data-toggle="tab">Settings</a></li>#}
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="home">{{ origin_data }}</div>
-                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                    <div role="tabpanel" class="tab-pane active" id="home" style="margin-top: 10px">
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="background-color: black;border-radius: 10px">
+                                <p style="font-weight: bold;color: white">
+                                    {{ origin_data }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="profile" style="margin-top: 10px">
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="background-color: black;border-radius: 10px">
+                                <p style="font-weight: bold;color: white">
+                                    {{ Get_keywords_report.Keywords }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {#                    <div role="tabpanel" class="tab-pane" id="messages">...</div>#}
+                    {#                    <div role="tabpanel" class="tab-pane" id="settings">...</div>#}
                 </div>
 
             </div>
