@@ -1,5 +1,4 @@
 # 用于爬取指定电话库，并且格式化输出csv文件
-import random
 
 import requests  # 导入 requests 库，用于发送 HTTP 请求
 from bs4 import BeautifulSoup  # 导入 BeautifulSoup 库，用于解析 HTML 和 XML 文档
@@ -117,16 +116,15 @@ with open('scam_phones.csv', 'r', encoding='utf-8') as file:
         # 检查数据库中是否已存在该数据（根据需要进行更新或插入操作）
         cursor.execute("SELECT * FROM SE_phone_number WHERE 电话号码 = %s", (row['诈骗电话'],))
         existing_data = cursor.fetchone()
-        rand_int = random.randint(1, 5)
         if existing_data:
             existing_data_id = existing_data['id']
             # 如果数据已存在，则更新数据
             cursor.execute("UPDATE SE_phone_number SET 电话号码 = %s, 电话类型 = %s, 标记次数 = %s WHERE id = %s",
-                           (row['诈骗电话'], '诈骗电话', rand_int, existing_data_id))
+                           (row['诈骗电话'], row['电话类型'], row['标记次数'][0], existing_data_id))
         else:
             # 如果数据不存在，则插入新数据
             cursor.execute("INSERT INTO SE_phone_number (电话号码, 电话类型, 标记次数) VALUES (%s, %s, %s)",
-                           (row['诈骗电话'], '诈骗电话', rand_int))
+                           (row['诈骗电话'], row['电话类型'], row['标记次数'][0]))
 
     connection.commit()
 
