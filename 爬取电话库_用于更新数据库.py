@@ -119,9 +119,10 @@ with open('scam_phones.csv', 'r', encoding='utf-8') as file:
         existing_data = cursor.fetchone()
         rand_int = random.randint(1, 5)
         if existing_data:
+            existing_data_id = existing_data['id']
             # 如果数据已存在，则更新数据
-            cursor.execute("UPDATE SE_phone_number SET 电话号码 = %s, 电话类型 = %s 标记次数 = %s WHERE id = %s",
-                           (row['诈骗电话'], '诈骗电话', rand_int, row['id']))
+            cursor.execute("UPDATE SE_phone_number SET 电话号码 = %s, 电话类型 = %s, 标记次数 = %s WHERE id = %s",
+                           (row['诈骗电话'], '诈骗电话', rand_int, existing_data_id))
         else:
             # 如果数据不存在，则插入新数据
             cursor.execute("INSERT INTO SE_phone_number (电话号码, 电话类型, 标记次数) VALUES (%s, %s, %s)",
