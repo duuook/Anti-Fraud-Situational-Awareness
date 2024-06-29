@@ -54,13 +54,17 @@ def text_analysis(text):
             }
         else:
             probability_arr = []
+            probability_arr_percent = []
             for i in probability:
                 probability_arr.append('%.3f' % i)
+                probability_arr_percent.append('{:.2%}'.format(i))
             print(probability_arr)
+            print(probability_arr_percent)
             Text_predict_report = {
                 'status': 1,
                 'title': int(title),
                 'probability': probability_arr,
+                'probability_percent': probability_arr_percent,
             }
 
         # 返回分析报告

@@ -26,15 +26,19 @@ def websit_analysis(url):
         flag, predict, prediction = Text_predict(cleaned_text)
         if flag:
             sub_prediction = []
+            sub_prediction_percent = []
             if predict:
                 print('该网站有可能是诈骗网站')
             print(f'预测结果：\n非诈骗网站的概率：{prediction[0]:.3f}  诈骗网站的概率：{prediction[1]:.3f}')
             sub_prediction.append(f'{prediction[0]:.3f}')
             sub_prediction.append(f'{prediction[1]:.3f}')
+            sub_prediction_percent.append('{:.2%}'.format(prediction[0]))
+            sub_prediction_percent.append('{:.2%}'.format(prediction[1]))
             website_predict_report = {
                 'status': 1,
                 'predict': int(predict),
-                'prediction': sub_prediction
+                'prediction': sub_prediction,
+                'prediction_percent': sub_prediction_percent
             }
         else:
             website_predict_report = {
