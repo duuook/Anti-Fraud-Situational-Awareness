@@ -19,7 +19,7 @@ def websit_analysis(url):
         start_crawl(start_url, output_file)
         # 将爬取到的网站文本转变为字符串进行预测
         # 示例用法
-        cleaned_text = process_file(output_file)
+        cleaned_text, origin_text = process_file(output_file)
 
         # ---------------------------网页预测-------------------------------------
         # 使用处理的字符串进行预测
@@ -48,7 +48,7 @@ def websit_analysis(url):
 
         # ---------------------------网页关键词提取-------------------------------------
         # 获取关键词
-        size, ans = Keywords.Get_keywords(cleaned_text)
+        size, ans = Keywords.Get_keywords(origin_text)
         if size == 0:
             Get_keywords_report = {
                 'status': 0,
@@ -77,6 +77,7 @@ def websit_analysis(url):
                 'error': '未知错误',
             }
 
+        print("Get_keywords_report:", Get_keywords_report)
         website_analysis_report = {
             'status': 1,
             'website_predict_report': website_predict_report,
