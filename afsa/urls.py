@@ -20,7 +20,6 @@ from SE import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('afsa/', views.index),
-    path('welcome/', views.welcome),
 
     # 分析结果页面
     path('analysis_result/', views.analysis_result),

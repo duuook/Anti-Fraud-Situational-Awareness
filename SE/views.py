@@ -10,10 +10,6 @@ from SE.utils import validation
 
 # Create your views here.
 
-def welcome(request):
-    """欢迎界面"""
-    return render(request, 'welcome.html')
-
 
 def index(request):
     """防诈态势感知主界面"""
